@@ -102,6 +102,17 @@ Windows需要.NET 6 SDK。构建x64和ARM64安装包：
 
 脚本生成安装版、便携版和`SHA256SUMS-Windows.txt`。详细说明见 [Windows教程](docs/Windows安装与使用.md)。
 
+## Code signing policy
+
+The Windows v1.0.0 artifacts are currently unsigned. Future approved Windows releases will use a verifiable SignPath build and manual signing approval process.
+
+Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+- Committers and reviewers: [beluug](https://github.com/beluug)
+- Approvers: [beluug](https://github.com/beluug)
+- [Full code signing policy](CODE_SIGNING_POLICY.md)
+- [Privacy policy](PRIVACY.md)
+
 ## 说明与许可
 
 Cloudflare Analytics可能延迟数分钟，也不是官方计费计数器；临近100%时请预留余量。
