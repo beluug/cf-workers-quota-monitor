@@ -26,6 +26,13 @@ try
         payload.Accounts[0].Token != "test_token_that_is_long_enough_but_not_real")
         throw new Exception("Encrypted backup round trip failed");
 
+    var legacyAndroidPath = Path.Combine(folder, "legacy-android.cfqm.json");
+    File.Copy(backupPath, legacyAndroidPath);
+    var legacyPayload = backup.Import(legacyAndroidPath, "correct-horse-battery-staple");
+    if (legacyPayload.Accounts.Count != 1 ||
+        !BackupService.ImportFileDialogFilter.Contains("*.cfqm.json", StringComparison.Ordinal))
+        throw new Exception("Legacy Android .cfqm.json import compatibility failed");
+
     try
     {
         backup.Import(backupPath, "wrong-password");

@@ -7,6 +7,10 @@ namespace CFQuotaMonitor.Windows.Services;
 
 public sealed class BackupService
 {
+    public const string SaveFileDialogFilter = "CF Quota Monitor backup (*.cfqm)|*.cfqm";
+    public const string ImportFileDialogFilter =
+        "CF Quota Monitor backup (*.cfqm;*.cfqm.json)|*.cfqm;*.cfqm.json|All files (*.*)|*.*";
+
     private const int Iterations = 310_000;
     private const int MaxFileBytes = 10 * 1024 * 1024;
     private readonly JsonSerializerOptions _json = new()

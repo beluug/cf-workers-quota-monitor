@@ -385,7 +385,7 @@ public partial class MainWindow : Window
         if (ExportPassword.Password != ExportPasswordConfirm.Password) { ShowError(_loc.T("password_mismatch")); return; }
         var dialog = new SaveFileDialog
         {
-            Filter = "CF Quota Monitor backup (*.cfqm)|*.cfqm",
+            Filter = BackupService.SaveFileDialogFilter,
             FileName = $"CF-Quota-Backup-{DateTime.Now:yyyy-MM-dd}.cfqm",
             AddExtension = true, DefaultExt = ".cfqm"
         };
@@ -402,7 +402,7 @@ public partial class MainWindow : Window
 
     private void ImportButton_Click(object sender, RoutedEventArgs e)
     {
-        var file = new OpenFileDialog { Filter = "CF Quota Monitor backup (*.cfqm)|*.cfqm", CheckFileExists = true, Multiselect = false };
+        var file = new OpenFileDialog { Filter = BackupService.ImportFileDialogFilter, CheckFileExists = true, Multiselect = false };
         if (file.ShowDialog(this) != true) return;
         var password = new PasswordPromptDialog(this, _loc);
         if (password.ShowDialog() != true) return;

@@ -45,6 +45,7 @@ enum class BackupError {
 class BackupException(val reason: BackupError, cause: Throwable? = null) : Exception(reason.name, cause)
 
 object CfqmBackupService {
+    const val MIME_TYPE = "application/octet-stream"
     const val MAX_FILE_BYTES = 10 * 1024 * 1024
     private const val ITERATIONS = 310_000
     private const val KEY_BYTES = 32

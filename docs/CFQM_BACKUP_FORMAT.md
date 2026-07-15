@@ -2,6 +2,8 @@
 
 CFQM is a portable, versioned account-backup format shared by CF Quota Monitor clients. The file extension is `.cfqm`.
 
+Writers should use the MIME type `application/octet-stream` so document providers preserve the `.cfqm` extension. Importers must inspect the encrypted container rather than trust the filename and should accept the legacy Android filename suffix `.cfqm.json`.
+
 ## Container
 
 The outer file is UTF-8 JSON containing only encryption metadata and ciphertext:

@@ -10,10 +10,10 @@ A beautiful, secure, local-first dashboard for monitoring daily Cloudflare Worke
 
 | Device | File |
 |---|---|
-| Most Windows PCs with Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
-| Windows on ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
+| Most Windows PCs with Intel/AMD | `CF-Quota-Monitor-v1.0.2-Windows-x64-Setup.exe` |
+| Windows on ARM/Snapdragon | `CF-Quota-Monitor-v1.0.2-Windows-arm64-Setup.exe` |
 | Portable Windows version | Matching `Portable.zip` |
-| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.1.apk` |
 
 Windows packages are currently unsigned and may show a SmartScreen “unknown publisher” warning. Download only from this repository's [Releases](../../releases/latest) and verify `SHA256SUMS-Windows.txt`.
 

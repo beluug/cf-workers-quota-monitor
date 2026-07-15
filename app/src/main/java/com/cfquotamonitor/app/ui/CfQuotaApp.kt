@@ -79,6 +79,7 @@ import androidx.compose.ui.unit.sp
 import com.cfquotamonitor.app.R
 import com.cfquotamonitor.app.backup.BackupError
 import com.cfquotamonitor.app.backup.BackupPayload
+import com.cfquotamonitor.app.backup.CfqmBackupService
 import com.cfquotamonitor.app.backup.DuplicateMode
 import com.cfquotamonitor.app.backup.ImportResult
 import com.cfquotamonitor.app.model.AccountUiState
@@ -126,7 +127,7 @@ fun CfQuotaApp(viewModel: MainViewModel, onLanguageChanged: () -> Unit) {
     var transferNotice by remember { mutableStateOf<TransferNotice?>(null) }
 
     val createBackup = rememberLauncherForActivityResult(
-        ActivityResultContracts.CreateDocument("application/json")
+        ActivityResultContracts.CreateDocument(CfqmBackupService.MIME_TYPE)
     ) { uri ->
         val request = pendingExport
         pendingExport = null

@@ -52,10 +52,10 @@ powershell -ExecutionPolicy Bypass -File .\publish-to-github.ps1
 
 ```powershell
 gh release upload v1.2.0 `
-  .\release\CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe `
-  .\release\CF-Quota-Monitor-v1.0.1-Windows-x64-Portable.zip `
-  .\release\CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe `
-  .\release\CF-Quota-Monitor-v1.0.1-Windows-arm64-Portable.zip `
+  .\release\CF-Quota-Monitor-v1.0.2-Windows-x64-Setup.exe `
+  .\release\CF-Quota-Monitor-v1.0.2-Windows-x64-Portable.zip `
+  .\release\CF-Quota-Monitor-v1.0.2-Windows-arm64-Setup.exe `
+  .\release\CF-Quota-Monitor-v1.0.2-Windows-arm64-Portable.zip `
   .\release\SHA256SUMS-Windows.txt `
   --clobber
 ```

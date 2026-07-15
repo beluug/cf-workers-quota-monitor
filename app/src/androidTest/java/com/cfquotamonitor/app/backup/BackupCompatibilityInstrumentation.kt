@@ -17,6 +17,7 @@ class BackupCompatibilityInstrumentation : Instrumentation() {
         try {
             val password = "correct-horse-battery-staple"
             val expectedToken = "test_token_that_is_long_enough_but_not_real"
+            check(CfqmBackupService.MIME_TYPE == "application/octet-stream")
             val windowsBytes = context.assets.open("windows-v1.cfqm").use { it.readBytes() }
             val windowsPayload = CfqmBackupService.import(windowsBytes, password)
             check(windowsPayload.sourcePlatform == "windows")

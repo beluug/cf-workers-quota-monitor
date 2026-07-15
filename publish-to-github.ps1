@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $repoName = "cf-workers-quota-monitor"
 $repoDescription = "A secure, local-first Android and Windows dashboard for Cloudflare Workers daily quota"
 $releaseDir = Join-Path $PSScriptRoot "release"
-$apkFiles = @(Get-ChildItem -LiteralPath $releaseDir -Filter "*.apk" -File)
+$apkFiles = @(Get-ChildItem -LiteralPath $releaseDir -Filter "CF-Quota-Monitor-v1.3.1.apk" -File)
 $checksumPath = Join-Path $releaseDir "SHA256SUMS.txt"
 $windowsChecksumPath = Join-Path $releaseDir "SHA256SUMS-Windows.txt"
 $releaseNotesPath = Join-Path $releaseDir "RELEASE_NOTES.md"
@@ -34,8 +34,8 @@ if ($LASTEXITCODE -ne 0) {
 if ($apkFiles.Count -ne 1) {
     throw "Expected exactly one APK in the release directory, found $($apkFiles.Count)."
 }
-$windowsSetup = @(Get-ChildItem -LiteralPath $releaseDir -Filter "CF-Quota-Monitor-v1.0.1-Windows-*-Setup.exe" -File)
-$windowsPortable = @(Get-ChildItem -LiteralPath $releaseDir -Filter "CF-Quota-Monitor-v1.0.1-Windows-*-Portable.zip" -File)
+$windowsSetup = @(Get-ChildItem -LiteralPath $releaseDir -Filter "CF-Quota-Monitor-v1.0.2-Windows-*-Setup.exe" -File)
+$windowsPortable = @(Get-ChildItem -LiteralPath $releaseDir -Filter "CF-Quota-Monitor-v1.0.2-Windows-*-Portable.zip" -File)
 if ($windowsSetup.Count -ne 2 -or $windowsPortable.Count -ne 2) {
     throw "Expected x64 and arm64 Windows setup/portable files. Run .\build-windows.ps1 -Architecture all first."
 }
@@ -77,7 +77,7 @@ if ($stagedFiles.Count -eq 0) {
 }
 
 Write-Host "Committing $($stagedFiles.Count) public files. Signing keys, local settings and release binaries are excluded." -ForegroundColor Green
-git commit -m "Fix Cloudflare response parsing on Windows"
+git commit -m "Fix CFQM backup file extensions across platforms"
 
 $origin = git remote get-url origin 2>$null
 if ([string]::IsNullOrWhiteSpace($origin)) {
@@ -95,14 +95,14 @@ if ([string]::IsNullOrWhiteSpace($origin)) {
 $releaseAssets = @($apkFiles[0].FullName) + @($windowsSetup.FullName) + @($windowsPortable.FullName) + @($checksumPath, $windowsChecksumPath, $installPath)
 $savedErrorPreference = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue'
-gh release view v1.3.1 *> $null
+gh release view v1.3.2 *> $null
 $releaseExists = $LASTEXITCODE -eq 0
 $ErrorActionPreference = $savedErrorPreference
 if ($releaseExists) {
-    gh release upload v1.3.1 @releaseAssets --clobber
-    gh release edit v1.3.1 --title "CF Quota Monitor | Android v1.3.0 | Windows v1.0.1" --notes-file $releaseNotesPath
+    gh release upload v1.3.2 @releaseAssets --clobber
+    gh release edit v1.3.2 --title "CF Quota Monitor | Android v1.3.1 | Windows v1.0.2" --notes-file $releaseNotesPath
 } else {
-    gh release create v1.3.1 @releaseAssets --title "CF Quota Monitor | Android v1.3.0 | Windows v1.0.1" --notes-file $releaseNotesPath
+    gh release create v1.3.2 @releaseAssets --title "CF Quota Monitor | Android v1.3.1 | Windows v1.0.2" --notes-file $releaseNotesPath
 }
 if ($LASTEXITCODE -ne 0) { throw "Failed to create or update the GitHub Release." }
 

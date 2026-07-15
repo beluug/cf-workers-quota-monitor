@@ -16,7 +16,7 @@ Unicode true
 
 !define PRODUCT_NAME "CF Quota Monitor"
 !ifndef PRODUCT_VERSION
-  !define PRODUCT_VERSION "1.0.1"
+  !define PRODUCT_VERSION "1.0.2"
 !endif
 !define PRODUCT_PUBLISHER "CF Quota Monitor Contributors"
 !define PRODUCT_EXE "CFQuotaMonitor.exe"

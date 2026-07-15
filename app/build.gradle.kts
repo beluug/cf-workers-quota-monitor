@@ -15,8 +15,8 @@ android {
         minSdk = 26
         targetSdk = 35
         testInstrumentationRunner = "com.cfquotamonitor.app.backup.BackupCompatibilityInstrumentation"
-        versionCode = 13
-        versionName = "1.3.0"
+        versionCode = 14
+        versionName = "1.3.1"
     }
 
     val localSigningFile = rootProject.file(".signing/keystore.properties")

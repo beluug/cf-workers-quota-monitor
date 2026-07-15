@@ -36,7 +36,7 @@ public sealed class CloudflareService
         using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.cloudflare.com/client/v4/graphql");
         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        request.Headers.UserAgent.ParseAdd("CFQuotaMonitor-Windows/1.0.1");
+        request.Headers.UserAgent.ParseAdd("CFQuotaMonitor-Windows/1.0.2");
         request.Content = new StringContent(body, Encoding.UTF8, "application/json");
 
         HttpResponseMessage response;

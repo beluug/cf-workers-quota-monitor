@@ -10,10 +10,10 @@ Una aplicación atractiva, segura y totalmente local para controlar la cuota dia
 
 | Dispositivo | Archivo |
 |---|---|
-| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
+| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.2-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.2-Windows-arm64-Setup.exe` |
 | Windows portátil | El `Portable.zip` correspondiente |
-| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.1.apk` |
 
 Los paquetes Windows aún no están firmados y SmartScreen puede mostrar “editor desconocido”. Descárgalos solo desde [Releases](../../releases/latest) y verifica `SHA256SUMS-Windows.txt`.
 

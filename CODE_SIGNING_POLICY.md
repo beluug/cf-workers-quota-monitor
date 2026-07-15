@@ -4,7 +4,7 @@ Windows release artifacts are built from the public repository and are intended 
 
 ## Current status
 
-The Windows v1.0.1 files are currently unsigned. Their SHA-256 hashes are published in `SHA256SUMS-Windows.txt`.
+The Windows v1.0.2 files are currently unsigned. Their SHA-256 hashes are published in `SHA256SUMS-Windows.txt`.
 
 After acceptance into the SignPath Foundation open-source program, the repository and release pages will include the required statement:
 

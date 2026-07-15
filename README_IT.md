@@ -10,10 +10,10 @@ Un'app bella, sicura e locale per controllare la quota giornaliera Cloudflare Wo
 
 | Dispositivo | File |
 |---|---|
-| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
+| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.2-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.2-Windows-arm64-Setup.exe` |
 | Windows portatile | `Portable.zip` dell'architettura corretta |
-| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.1.apk` |
 
 I pacchetti Windows non sono ancora firmati e SmartScreen può mostrare “editore sconosciuto”. Scaricali solo da [Releases](../../releases/latest) e verifica `SHA256SUMS-Windows.txt`.
 

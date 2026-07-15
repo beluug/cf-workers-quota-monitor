@@ -10,10 +10,10 @@ Une application belle, sûre et entièrement locale pour suivre le quota quotidi
 
 | Appareil | Fichier |
 |---|---|
-| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
+| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.2-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.2-Windows-arm64-Setup.exe` |
 | Windows portable | Le `Portable.zip` correspondant |
-| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.1.apk` |
 
 Les paquets Windows ne sont pas encore signés et SmartScreen peut afficher « éditeur inconnu ». Téléchargez-les uniquement depuis [Releases](../../releases/latest) et vérifiez `SHA256SUMS-Windows.txt`.
 

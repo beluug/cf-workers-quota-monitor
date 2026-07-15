@@ -33,7 +33,7 @@ class CloudflareClient(private val context: Context) {
             setRequestProperty("Authorization", "Bearer $token")
             setRequestProperty("Content-Type", "application/json")
             setRequestProperty("Accept", "application/json")
-            setRequestProperty("User-Agent", "CFQuotaMonitor-Android/1.2")
+            setRequestProperty("User-Agent", "CFQuotaMonitor-Android/1.3.1")
         }
 
         try {

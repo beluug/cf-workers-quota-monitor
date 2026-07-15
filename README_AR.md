@@ -12,10 +12,10 @@
 
 | الجهاز | الملف |
 |---|---|
-| Windows بمعالج Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
+| Windows بمعالج Intel/AMD | `CF-Quota-Monitor-v1.0.2-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.2-Windows-arm64-Setup.exe` |
 | نسخة Windows محمولة | ملف `Portable.zip` المناسب |
-| Android 8.0 أو أحدث | `CF-Quota-Monitor-v1.3.0.apk` |
+| Android 8.0 أو أحدث | `CF-Quota-Monitor-v1.3.1.apk` |
 
 حزم Windows غير موقعة حاليًا وقد يعرض SmartScreen تحذير «ناشر غير معروف». نزّلها فقط من [Releases](../../releases/latest) وتحقق من `SHA256SUMS-Windows.txt`.
 
