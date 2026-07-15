@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>CFQuotaMonitor</AssemblyName>
+    <RootNamespace>CFQuotaMonitor.Windows</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Authors>CF Quota Monitor Contributors</Authors>
+    <Description>Cloudflare Workers quota monitor for Windows</Description>
+    <Copyright>Copyright (c) CF Quota Monitor Contributors</Copyright>
+  </PropertyGroup>
+</Project>

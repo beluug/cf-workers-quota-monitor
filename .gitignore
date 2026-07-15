@@ -3,6 +3,8 @@
 .idea/
 local.properties
 **/build/
+**/bin/
+**/obj/
 captures/
 .externalNativeBuild/
 .cxx/
@@ -11,3 +13,4 @@ captures/
 keystore.properties
 release/
 .signing/
+installer-test*/

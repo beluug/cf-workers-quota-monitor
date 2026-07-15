@@ -2,34 +2,40 @@
 
 <p align="center"><a href="README.md">简体中文</a> · <a href="README_EN.md">English</a> · <a href="README_RU.md">Русский</a> · <a href="README_IT.md">Italiano</a> · <a href="README_FR.md">Français</a> · <strong>Español</strong> · <a href="README_AR.md">العربية</a></p>
 
-# Monitor de cuota CF v1.2
+# Monitor de cuota CF
 
-Una aplicación Android atractiva, segura y totalmente local para controlar la cuota diaria de Cloudflare Workers en varias cuentas.
+Una aplicación atractiva, segura y totalmente local para controlar la cuota diaria de Cloudflare Workers en varias cuentas. Disponible para Android y Windows.
 
-<p align="center"><img src="docs/images/v1.2-main-en.png" alt="Pantalla principal" width="300"> &nbsp; <img src="docs/images/v1.2-settings-zh.png" alt="Ajustes" width="300"></p>
+## Descarga
+
+| Dispositivo | Archivo |
+|---|---|
+| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
+| Windows portátil | El `Portable.zip` correspondiente |
+| Android 8.0+ | `CF-Quota-Monitor-v1.2.0.apk` |
+
+Los paquetes Windows aún no están firmados y SmartScreen puede mostrar “editor desconocido”. Descárgalos solo desde [Releases](../../releases/latest) y verifica `SHA256SUMS-Windows.txt`.
 
 ## Funciones
 
 - Varias cuentas y barras de progreso en una sola pantalla
-- Bloqueo opcional con huella, rostro o credencial del dispositivo; desactivado por defecto
-- Español, chino, inglés, ruso, italiano, francés y árabe; selección inicial según el sistema
-- Actualización opcional en segundo plano cada 15/30 minutos o 1/3/6/12/24 horas; desactivada por defecto
-- API Token cifrados con AES-GCM y Android Keystore
-- Sin anuncios, analítica, servidor propio ni copias en la nube
+- Bloqueo opcional: autenticación de Android o Windows Hello/PIN alternativo
+- Siete idiomas, incluida interfaz árabe de derecha a izquierda
+- Actualización opcional en segundo plano; Windows continúa en la bandeja
+- Android Keystore y DPAPI del usuario actual de Windows
+- Sin anuncios, analítica, servidor propio ni almacenamiento cloud de tokens
+- Windows exporta cuentas seleccionadas a un archivo `.cfqm` cifrado con contraseña
 
-Android puede retrasar el trabajo en segundo plano para ahorrar batería. Al abrir la aplicación se actualiza inmediatamente.
+Android v1.2 todavía no importa `.cfqm`; una versión móvil posterior usará el mismo formato.
 
-## Instalación y configuración
+<p align="center"><img src="docs/images/v1.2-main-es.png" alt="Android" width="300"> &nbsp; <img src="docs/images/v1.2-settings-es.png" alt="Ajustes Android" width="300"></p>
 
-Descarga `CF额度监控-v1.2.0.apk` desde [Releases](../../releases/latest). Requiere Android 8.0 o posterior.
+## Configuración
 
 1. En [Cloudflare Dashboard](https://dash.cloudflare.com), abre **Workers & Pages** y copia el **Account ID** de 32 caracteres.
 2. Abre **Profile → API Tokens → Create Custom Token**.
-3. Concede solo `Account → Account Analytics → Read` y limita el recurso a la cuenta supervisada.
-4. Pulsa **＋** en la aplicación y pega el Account ID y el API Token.
+3. Concede solo `Account → Account Analytics → Read`.
+4. Añade el Account ID y el API Token en la aplicación.
 
-No uses una Global API Key ni publiques ningún token.
-
-## Privacidad y licencia
-
-Los tokens y la caché permanecen en el dispositivo; las solicitudes van directamente a `api.cloudflare.com`. Licencia [MIT](LICENSE). Proyecto independiente no afiliado a Cloudflare, Inc. Analytics puede retrasarse y no es el contador oficial de facturación.
+No uses una Global API Key ni publiques ningún token. Los datos permanecen en el dispositivo y las solicitudes van directamente a `api.cloudflare.com`. Licencia [MIT](LICENSE), proyecto independiente no afiliado a Cloudflare, Inc.

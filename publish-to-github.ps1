@@ -1,11 +1,13 @@
 $ErrorActionPreference = "Stop"
 
 $repoName = "cf-workers-quota-monitor"
-$repoDescription = "A secure, local-first Android dashboard for Cloudflare Workers daily quota"
+$repoDescription = "A secure, local-first Android and Windows dashboard for Cloudflare Workers daily quota"
 $releaseDir = Join-Path $PSScriptRoot "release"
 $apkFiles = @(Get-ChildItem -LiteralPath $releaseDir -Filter "*.apk" -File)
 $checksumPath = Join-Path $releaseDir "SHA256SUMS.txt"
+$windowsChecksumPath = Join-Path $releaseDir "SHA256SUMS-Windows.txt"
 $releaseNotesPath = Join-Path $releaseDir "RELEASE_NOTES.md"
+$installPath = Join-Path $releaseDir "INSTALL.txt"
 
 Set-Location $PSScriptRoot
 $proxyUrl = "http://127.0.0.1:7897"
@@ -32,9 +34,13 @@ if ($LASTEXITCODE -ne 0) {
 if ($apkFiles.Count -ne 1) {
     throw "Expected exactly one APK in the release directory, found $($apkFiles.Count)."
 }
-$apkPath = $apkFiles[0].FullName
+$windowsSetup = @(Get-ChildItem -LiteralPath $releaseDir -Filter "*Windows-*-Setup.exe" -File)
+$windowsPortable = @(Get-ChildItem -LiteralPath $releaseDir -Filter "*Windows-*-Portable.zip" -File)
+if ($windowsSetup.Count -ne 2 -or $windowsPortable.Count -ne 2) {
+    throw "Expected x64 and arm64 Windows setup/portable files. Run .\build-windows.ps1 -Architecture all first."
+}
 
-foreach ($requiredFile in @($checksumPath, $releaseNotesPath)) {
+foreach ($requiredFile in @($checksumPath, $windowsChecksumPath, $releaseNotesPath, $installPath)) {
     if (-not (Test-Path -LiteralPath $requiredFile)) {
         throw "Missing release file: $requiredFile"
     }
@@ -70,8 +76,8 @@ if ($stagedFiles.Count -eq 0) {
     throw "No source files are available to commit."
 }
 
-Write-Host "Committing $($stagedFiles.Count) public files. Signing keys, local settings and APK files are excluded." -ForegroundColor Green
-git commit -m "Release CF Quota Monitor v1.2.0"
+Write-Host "Committing $($stagedFiles.Count) public files. Signing keys, local settings and release binaries are excluded." -ForegroundColor Green
+git commit -m "Add Windows v1.0.0 release"
 
 $origin = git remote get-url origin 2>$null
 if ([string]::IsNullOrWhiteSpace($origin)) {
@@ -86,9 +92,14 @@ if ([string]::IsNullOrWhiteSpace($origin)) {
     }
 }
 
-gh release create v1.2.0 $apkPath $checksumPath --title "CF Quota Monitor v1.2.0" --notes-file $releaseNotesPath
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to create the GitHub Release."
+$releaseAssets = @($apkFiles[0].FullName) + @($windowsSetup.FullName) + @($windowsPortable.FullName) + @($checksumPath, $windowsChecksumPath, $installPath)
+gh release view v1.2.0 *> $null
+if ($LASTEXITCODE -eq 0) {
+    gh release upload v1.2.0 @releaseAssets --clobber
+    gh release edit v1.2.0 --title "CF Quota Monitor | Android v1.2.0 | Windows v1.0.0" --notes-file $releaseNotesPath
+} else {
+    gh release create v1.2.0 @releaseAssets --title "CF Quota Monitor | Android v1.2.0 | Windows v1.0.0" --notes-file $releaseNotesPath
 }
+if ($LASTEXITCODE -ne 0) { throw "Failed to create or update the GitHub Release." }
 
 Write-Host "Published: https://github.com/$login/$repoName" -ForegroundColor Green

@@ -2,38 +2,46 @@
 
 <p align="center"><a href="README.md">简体中文</a> · <strong>English</strong> · <a href="README_RU.md">Русский</a> · <a href="README_IT.md">Italiano</a> · <a href="README_FR.md">Français</a> · <a href="README_ES.md">Español</a> · <a href="README_AR.md">العربية</a></p>
 
-# CF Quota Monitor v1.2
+# CF Quota Monitor
 
-A beautiful, secure, local-first Android dashboard for monitoring daily Cloudflare Workers quota across multiple accounts.
+A beautiful, secure, local-first dashboard for monitoring daily Cloudflare Workers quota across multiple accounts. Available for Android and Windows.
 
-<p align="center"><img src="docs/images/v1.2-main-en.png" alt="Main screen" width="300"> &nbsp; <img src="docs/images/v1.2-settings-zh.png" alt="Settings" width="300"></p>
+## Download
+
+| Device | File |
+|---|---|
+| Most Windows PCs with Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
+| Windows on ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
+| Portable Windows version | Matching `Portable.zip` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.2.0.apk` |
+
+Windows packages are currently unsigned and may show a SmartScreen “unknown publisher” warning. Download only from this repository's [Releases](../../releases/latest) and verify `SHA256SUMS-Windows.txt`.
 
 ## Highlights
 
-- Multiple accounts and progress bars on one screen
-- Optional app lock using fingerprint, face, or device credential; off by default
-- English, Chinese, Russian, Italian, French, Spanish, and Arabic with automatic system-language selection
-- Optional background refresh at 15/30 minutes or 1/3/6/12/24 hours; off by default
-- API Tokens encrypted with AES-GCM and Android Keystore
-- No ads, analytics SDK, custom server, or cloud backup
+- Multiple accounts, progress bars, used and estimated remaining quota
+- Optional app lock: device authentication on Android; Windows Hello or fallback PIN on Windows
+- Chinese, English, Russian, Italian, French, Spanish, and Arabic with automatic system-language selection
+- Optional background refresh; Windows continues while running in the system tray
+- Android Keystore protection on Android and per-user Windows DPAPI protection on Windows
+- No ads, analytics SDK, custom server, or cloud credential storage
+- Windows can export selected accounts to a password-protected `.cfqm` backup and import with duplicate handling
 
-Android schedules background work approximately and may delay it to save battery. Opening the app always triggers an immediate refresh.
+Android v1.2 does not yet import `.cfqm`; a later mobile release will adopt the same documented format.
 
-## Install
-
-Download `CF额度监控-v1.2.0.apk` from [Releases](../../releases/latest). Android 8.0 or newer is required. v1.0 can be upgraded in place.
+<p align="center"><img src="docs/images/v1.2-main-en.png" alt="Android main screen" width="300"> &nbsp; <img src="docs/images/v1.2-settings-en.png" alt="Android settings" width="300"></p>
 
 ## Three-minute setup
 
 1. In [Cloudflare Dashboard](https://dash.cloudflare.com), open **Workers & Pages** and copy the 32-character **Account ID**.
 2. Go to **Profile → API Tokens → Create Custom Token**.
 3. Grant only `Account → Account Analytics → Read` and limit it to the monitored account.
-4. Tap **＋** in the app and paste the Account ID and API Token.
+4. Add the Account ID and API Token in the app.
 
 Never use a Global API Key or publish a token in chat, issues, or GitHub.
 
-## Privacy and license
+## Privacy, security, and license
 
-Tokens and cached usage remain on the device. Requests go directly to `api.cloudflare.com`; background refresh uses the same official endpoint. See [PRIVACY.md](PRIVACY.md).
+Tokens and cached usage stay on the device. Requests go directly to `api.cloudflare.com`. See [PRIVACY.md](PRIVACY.md), [SECURITY.md](SECURITY.md), and the [Windows guide](docs/Windows安装与使用.md).
 
 Licensed under the [MIT License](LICENSE). This independent project is not affiliated with Cloudflare, Inc. Analytics data may lag and is not the official billing counter.

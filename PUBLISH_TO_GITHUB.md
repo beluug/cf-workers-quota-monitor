@@ -1,88 +1,72 @@
-# 发布到 GitHub
+# 发布到GitHub
 
-仓库名建议使用：`cf-workers-quota-monitor`
+仓库建议名称：`cf-workers-quota-monitor`
 
-以下操作只需要执行一次。GitHub 登录完全在你自己的终端和浏览器中完成。
-
-## 1. 安装 GitHub CLI
-
-打开 PowerShell：
+## 1. 准备GitHub CLI
 
 ```powershell
 winget install --id GitHub.cli --exact
-```
-
-安装后关闭并重新打开 PowerShell，然后登录：
-
-```powershell
 gh auth login
 ```
 
-如果最后提示连接 `github.com/login/oauth/access_token` 超时，而电脑正在运行 Clash Verge，请在同一个 PowerShell 窗口执行：
+如果浏览器授权连接超时，并且你在使用本地代理，可在同一个PowerShell窗口设置实际代理地址后重试：
 
 ```powershell
-$env:HTTP_PROXY="http://127.0.0.1:7897"
-$env:HTTPS_PROXY="http://127.0.0.1:7897"
+$env:HTTP_PROXY="http://127.0.0.1:你的端口"
+$env:HTTPS_PROXY=$env:HTTP_PROXY
 gh auth login
 ```
 
-依次选择：
-
-```text
-GitHub.com
-HTTPS
-Login with a web browser
-```
-
-浏览器会显示一次性验证码，由你自己确认授权。
-
-## 2. 一键发布
+## 2. 生成Windows文件
 
 ```powershell
 Set-Location "C:\path\to\cf-quota-monitor"
+.\build-windows.ps1 -Architecture all
+```
+
+确认`release`目录包含：
+
+- Android APK
+- Windows x64/ARM64 Setup EXE
+- Windows x64/ARM64 Portable ZIP
+- 两个平台的SHA-256文件
+- `RELEASE_NOTES.md`和`INSTALL.txt`
+
+## 3. 一键推送源码和Release
+
+```powershell
 powershell -ExecutionPolicy Bypass -File .\publish-to-github.ps1
 ```
 
-脚本会自动完成：
+脚本会：
 
-1. 初始化独立 Git 仓库；
-2. 使用 GitHub 用户名和 `users.noreply.github.com` 邮箱提交，避免公开真实邮箱；
-3. 再次阻止签名密钥、本机配置和 APK 被提交到源码；
-4. 创建公开仓库 `cf-workers-quota-monitor`；
-5. 推送 `main` 分支；
-6. 创建 `v1.2.0` Release；
-7. 上传签名 APK 和 SHA-256 校验文件。
+1. 使用GitHub用户名和`users.noreply.github.com`邮箱提交，避免公开真实邮箱。
+2. 阻止签名密钥、Token、本机配置、构建缓存和安装包进入源码历史。
+3. 创建或更新公开仓库。
+4. 创建或更新`v1.2.0` Release。
+5. 上传Android和四个Windows安装资产及校验文件。
 
-## 手动命令
+## 手动上传Release
 
-如果不想运行脚本，也可以逐行执行：
+如果源码已经推送，只上传Windows文件：
 
 ```powershell
-Set-Location "C:\path\to\cf-quota-monitor"
-
-$login = gh api user --jq .login
-git init
-git config --global --add safe.directory (Get-Location).Path.Replace('\', '/')
-git branch -M main
-git config user.name $login
-git config user.email "$login@users.noreply.github.com"
-
-git add .
-git status --short
-git commit -m "Release CF额度监控 v1.2.0"
-
-gh repo create cf-workers-quota-monitor --public --source . --remote origin --push --description "安全、纯本地的 Cloudflare Workers 多账号额度监控 Android App"
-
-gh release create v1.2.0 ".\release\CF额度监控-v1.2.0.apk" ".\release\SHA256SUMS.txt" --title "CF额度监控 v1.2.0" --notes-file ".\release\RELEASE_NOTES.md"
+gh release upload v1.2.0 `
+  .\release\CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe `
+  .\release\CF-Quota-Monitor-v1.0.0-Windows-x64-Portable.zip `
+  .\release\CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe `
+  .\release\CF-Quota-Monitor-v1.0.0-Windows-arm64-Portable.zip `
+  .\release\SHA256SUMS-Windows.txt `
+  --clobber
 ```
 
-## 绝对不要上传
+## 绝对不要上传到源码历史
 
-这些内容已经被 `.gitignore` 排除：
+- `.signing/`和任何`.jks`、`.keystore`、`.pfx`、`.p12`证书或私钥
+- `local.properties`
+- `%LocalAppData%\CFQuotaMonitor`中的真实账户数据
+- `.cfqm`备份文件
+- `bin/`、`obj/`、`build/`、`.gradle/`
+- Release二进制文件；它们应作为GitHub Release资产上传
 
-- `.signing/`：应用签名私钥和密码；
-- `local.properties`：本机 Android SDK 路径；
-- `app/build/`、`.gradle/`：本机构建缓存；
-- `release/`：APK 只通过 GitHub Release 发布，不进入源码历史。
-
-发布后请另外备份 `.signing` 文件夹。丢失签名密钥后，将无法为已安装用户提供可覆盖安装的更新。
+发布完成后再按 [SignPath申请教程](docs/SignPath开源签名申请.md) 申请Windows开源签名。
