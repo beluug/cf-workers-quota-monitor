@@ -1,77 +1,58 @@
+<p align="center"><img src="docs/images/banner.svg" alt="CF额度监控" width="100%"></p>
+
 <p align="center">
-  <img src="docs/images/banner.svg" alt="CF额度监控" width="100%">
+  <strong>简体中文</strong> · <a href="README_EN.md">English</a> · <a href="README_RU.md">Русский</a> · <a href="README_IT.md">Italiano</a> · <a href="README_FR.md">Français</a> · <a href="README_ES.md">Español</a> · <a href="README_AR.md">العربية</a>
 </p>
 
 <p align="center">
-  <a href="../../releases/latest"><img alt="Download" src="https://img.shields.io/badge/下载_APK-v1.0.0-F48120?style=for-the-badge&logo=android&logoColor=white"></a>
+  <a href="../../releases/latest"><img alt="下载 APK" src="https://img.shields.io/badge/下载_APK-v1.2.0-F48120?style=for-the-badge&logo=android&logoColor=white"></a>
   <img alt="Android 8+" src="https://img.shields.io/badge/Android-8.0+-159567?style=for-the-badge&logo=android&logoColor=white">
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/License-MIT-52606D?style=for-the-badge"></a>
 </p>
 
-<p align="center">
-  一个简洁、安全、纯本地的 Cloudflare Workers 免费额度查看工具。<br>
-  多账号同屏展示，打开即刷新，不在后台运行。
-</p>
+<p align="center">美观、安全、纯本地的 Cloudflare Workers 多账号额度监控 Android App。</p>
 
----
-
-## 一眼看懂用量
+## v1.2 界面
 
 <p align="center">
-  <img src="docs/images/main-screen.png" alt="CF额度监控主界面" width="330">
+  <img src="docs/images/v1.2-main-en.png" alt="英文主界面" width="300">
+  &nbsp;&nbsp;
+  <img src="docs/images/v1.2-settings-zh.png" alt="中文设置界面" width="300">
 </p>
 
-| 多账号同屏 | 近实时估算 | 本地加密 | 无后台活动 |
-|:---:|:---:|:---:|:---:|
-| 每个账号独立进度条 | 已用、剩余、重置倒计时 | Android Keystore 加密 Token | 只在打开或手动刷新时联网 |
+## 功能亮点
 
-## 下载
+| 功能 | 说明 |
+|---|---|
+| 多账号同屏 | 每个账号独立进度条，显示已用、剩余和每日额度 |
+| 可选应用锁 | 默认关闭；开启后离开再进入需指纹、面容或系统锁屏密码 |
+| 7 种语言 | 中文、英语、俄语、意大利语、法语、西班牙语、阿拉伯语；首次跟随系统 |
+| 可选后台刷新 | 默认关闭；可选 15/30 分钟或 1/3/6/12/24 小时 |
+| 本机加密 | API Token 使用 AES-GCM 与 Android Keystore 加密 |
+| 纯净开源 | 无广告、无统计 SDK、无自建服务器，MIT License |
 
-前往 [Releases](../../releases/latest) 下载最新版：
+> 后台执行时间由 Android 调度，可能因省电模式或无网络而延迟。每次打开 App 仍会立即刷新。
 
-```text
-CF额度监控-v1.0.0.apk
-```
+## 下载与安装
 
-支持 Android 8.0 及以上。APK 使用项目专属密钥签名，可覆盖安装后续版本。
-
-## 3 分钟完成配置
-
-### 1. 找到 Account ID
-
-登录 [Cloudflare Dashboard](https://dash.cloudflare.com)，选择账号并打开 **Workers & Pages**，复制页面中的 **Account ID**。
-
-### 2. 创建只读 Token
-
-打开 **个人资料 → API Tokens → Create Custom Token**，只添加一项权限：
+前往 [Releases](../../releases/latest) 下载：
 
 ```text
-Account → Account Analytics → Read
+CF额度监控-v1.2.0.apk
 ```
 
-资源范围只选择需要监控的账号。不要使用 Global API Key。
+支持 Android 8.0 及以上，可从 v1.0 直接覆盖安装并保留账号数据。
 
-### 3. 添加到 App
+## 3 分钟配置
 
-打开 App，点击右下角 **＋**，填写账号备注、Account ID 和 API Token，然后点击 **保存并查询**。
+1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com)，在 **Workers & Pages** 找到 32 位 **Account ID**。
+2. 打开 **个人资料 → API Tokens → Create Custom Token**。
+3. 只授予 `Account → Account Analytics → Read`，并限制为需要监控的账号。
+4. 打开 App，点击右下角 **＋**，粘贴 Account ID 和 API Token。
 
-> Token 通常只完整显示一次。请勿把 Token 发到聊天、Issue 或提交到 GitHub。
+不要使用 Global API Key，也不要把 Token 发到聊天、Issue 或提交到 GitHub。详细步骤见 [零基础教程](docs/安装与配置教程.md)。
 
-更详细的说明见 [零基础安装与配置教程](docs/安装与配置教程.md)，App 右上角的 `?` 也内置了同样的教程。
-
-## 功能
-
-- 多个 Cloudflare 账号在同一页面展示
-- 今日已用量、估算剩余量、使用百分比和进度条
-- UTC 00:00 日切倒计时，香港时间约上午 08:00
-- 打开 App 自动刷新，也可手动刷新
-- 免费账号默认每日 100,000 次，支持自定义额度
-- Token 密码框默认隐藏，可随时替换或删除
-- 指纹、面容或系统锁屏密码保护
-- 自动适配浅色与深色主题
-- 无广告、无统计 SDK、无自建服务器、无后台任务
-
-## 安全设计
+## 安全与隐私
 
 ```text
 Android App ── HTTPS ──> Cloudflare 官方 GraphQL API
@@ -79,39 +60,24 @@ Android App ── HTTPS ──> Cloudflare 官方 GraphQL API
      └── API Token：AES-GCM 加密 + Android Keystore 本机密钥
 ```
 
-- Token 只保存在用户设备中
-- 网络请求只发送到 `api.cloudflare.com`
-- 禁用 SharedPreferences 云备份与设备迁移
-- 日志不会输出 Token
-- 删除账号时同步删除对应的加密凭证
-- 签名文件、构建配置和本机路径均被 `.gitignore` 排除
+- Token 和用量缓存只保存在用户设备中
+- 后台刷新开启后也只连接 `api.cloudflare.com`
+- 禁用 Android 云备份和设备迁移备份
+- 删除账号时同步删除加密凭证和用量缓存
+- 签名文件、本机路径和构建缓存均被 `.gitignore` 排除
 
 完整说明见 [PRIVACY.md](PRIVACY.md)。
 
-## 关于“估算剩余”
-
-App 使用 Cloudflare 官方 GraphQL Analytics API 查询当天 Workers 请求数。Analytics 可能延迟数分钟，也不是 Cloudflare 的计费计数器，因此临近 100% 时请预留安全余量。
-
-Workers Free 当前默认额度为每天 100,000 次，并在 UTC 00:00 重置。Cloudflare 后续调整政策时，可以直接在 App 中修改每日额度。
-
 ## 本地构建
 
-需要 JDK 17 和 Android SDK 35。项目已经包含 Gradle Wrapper：
+需要 JDK 17 和 Android SDK 35：
 
 ```powershell
 .\gradlew.bat assembleDebug
 ```
 
-Linux / macOS：
+## 说明与许可
 
-```bash
-./gradlew assembleDebug
-```
+App 使用 Cloudflare GraphQL Analytics API，数据可能延迟数分钟，也不是官方计费计数器；临近 100% 时请预留余量。
 
-正式签名密钥不会提交到仓库。Fork 后发布 APK 时，请创建并妥善保管自己的签名密钥。
-
-## 开源许可
-
-本项目使用 [MIT License](LICENSE)。
-
-本项目是独立开源工具，与 Cloudflare, Inc. 无隶属或官方合作关系。Cloudflare 是其各自所有者的商标。
+本项目使用 [MIT License](LICENSE)，与 Cloudflare, Inc. 无隶属或官方合作关系。

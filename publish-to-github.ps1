@@ -8,6 +8,12 @@ $checksumPath = Join-Path $releaseDir "SHA256SUMS.txt"
 $releaseNotesPath = Join-Path $releaseDir "RELEASE_NOTES.md"
 
 Set-Location $PSScriptRoot
+$proxyUrl = "http://127.0.0.1:7897"
+if (-not $env:HTTPS_PROXY -and (Test-NetConnection 127.0.0.1 -Port 7897 -InformationLevel Quiet -WarningAction SilentlyContinue)) {
+    $env:HTTP_PROXY = $proxyUrl
+    $env:HTTPS_PROXY = $proxyUrl
+    Write-Host "Using the detected Clash proxy at $proxyUrl" -ForegroundColor Cyan
+}
 $repoPath = (Resolve-Path $PSScriptRoot).Path.Replace('\', '/')
 $safeDirectories = @(git config --global --get-all safe.directory 2>$null)
 if ($safeDirectories -notcontains $repoPath) {
@@ -65,14 +71,22 @@ if ($stagedFiles.Count -eq 0) {
 }
 
 Write-Host "Committing $($stagedFiles.Count) public files. Signing keys, local settings and APK files are excluded." -ForegroundColor Green
-git commit -m "Initial release: CF Quota Monitor v1.0.0"
+git commit -m "Release CF Quota Monitor v1.2.0"
 
-gh repo create $repoName --public --source . --remote origin --push --description $repoDescription
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to create or push the GitHub repository."
+$origin = git remote get-url origin 2>$null
+if ([string]::IsNullOrWhiteSpace($origin)) {
+    gh repo create $repoName --public --source . --remote origin --push --description $repoDescription
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to create or push the GitHub repository."
+    }
+} else {
+    git push -u origin main
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to push the main branch."
+    }
 }
 
-gh release create v1.0.0 $apkPath $checksumPath --title "CF Quota Monitor v1.0.0" --notes-file $releaseNotesPath
+gh release create v1.2.0 $apkPath $checksumPath --title "CF Quota Monitor v1.2.0" --notes-file $releaseNotesPath
 if ($LASTEXITCODE -ne 0) {
     throw "Failed to create the GitHub Release."
 }

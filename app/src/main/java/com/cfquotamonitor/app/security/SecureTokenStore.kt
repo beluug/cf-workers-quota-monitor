@@ -19,8 +19,8 @@ class SecureTokenStore(context: Context) {
         val encrypted = cipher.doFinal(token.toByteArray(Charsets.UTF_8))
         val encoded = Base64.encodeToString(cipher.iv, Base64.NO_WRAP) + ":" +
             Base64.encodeToString(encrypted, Base64.NO_WRAP)
-        check(prefs.edit().putString(accountLocalId, encoded).commit()) {
-            "无法保存加密凭证"
+        if (!prefs.edit().putString(accountLocalId, encoded).commit()) {
+            throw IllegalStateException()
         }
     }
 

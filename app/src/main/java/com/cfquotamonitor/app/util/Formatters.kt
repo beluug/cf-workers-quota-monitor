@@ -9,20 +9,17 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private val integerFormatter = NumberFormat.getIntegerInstance(Locale.CHINA)
-private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.CHINA)
-
-fun formatCount(value: Long): String = integerFormatter.format(value)
+fun formatCount(value: Long): String = NumberFormat.getIntegerInstance(Locale.getDefault()).format(value)
 
 fun formatFetchedTime(epochMillis: Long): String = Instant.ofEpochMilli(epochMillis)
     .atZone(ZoneId.systemDefault())
-    .format(timeFormatter)
+    .format(DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault()))
 
-fun resetCountdown(now: Instant = Instant.now()): String {
+fun resetCountdownParts(now: Instant = Instant.now()): Pair<Long, Long> {
     val tomorrowUtc = LocalDate.now(ZoneOffset.UTC).plusDays(1)
         .atStartOfDay().toInstant(ZoneOffset.UTC)
     val duration = Duration.between(now, tomorrowUtc).coerceAtLeast(Duration.ZERO)
     val hours = duration.toHours()
     val minutes = duration.minusHours(hours).toMinutes()
-    return "${hours}小时${minutes}分钟后重置"
+    return hours to minutes
 }

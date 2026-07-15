@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shared by Simplified and Traditional Chinese system locales. -->
+    <string name="app_name">CF额度监控</string>
+    <string name="app_subtitle">Workers 免费额度 · 近实时估算</string>
+    <string name="action_help">帮助</string><string name="action_settings">设置</string><string name="action_refresh">刷新</string><string name="action_back">‹ 返回</string>
+    <string name="action_save_query">保存并查询</string><string name="action_cancel">取消</string><string name="action_edit">编辑</string><string name="action_delete">删除</string>
+    <string name="action_show">显示</string><string name="action_hide">隐藏</string><string name="action_add_account">添加账号</string><string name="action_view_guide">查看配置教程</string><string name="action_unlock">验证身份并进入</string>
+    <string name="daily_overview">今日概览</string><string name="summary_usage_format">已用 %1$s / %2$s</string><string name="total_remaining">估算剩余</string><string name="account_count">账号数量</string><string name="reset_in">%1$d 小时 %2$d 分钟后重置</string>
+    <string name="section_accounts">账号用量</string><string name="percentage_used">已用 %1$d%%</string><string name="metric_used_today">今日已用</string><string name="metric_remaining">估算剩余</string><string name="metric_daily_limit">每日额度</string>
+    <string name="last_updated">最后更新 %1$s · 数据可能延迟数分钟</string><string name="no_usage">尚未获得用量数据</string>
+    <string name="delete_title">删除账号？</string><string name="delete_message">将从本机删除“%1$s”及其加密 Token，此操作无法撤销。</string>
+    <string name="empty_title">添加第一个 Cloudflare 账号</string><string name="empty_body">只需 Account ID 和只读 API Token。凭证只会加密保存在这台手机中。</string>
+    <string name="privacy_note_manual">无广告和统计 SDK。Token 由 Android Keystore 加密，只发送给 Cloudflare 官方 API。后台刷新已关闭。</string>
+    <string name="privacy_note_background">无广告和统计 SDK。后台刷新只会按所选周期连接 Cloudflare 官方 API。</string>
+    <string name="add_account_title">添加账号</string><string name="edit_account_title">编辑账号</string><string name="token_note">请使用仅含 Account Analytics Read 权限的 Token。不要填写 Global API Key。</string>
+    <string name="account_name_label">账号备注</string><string name="account_name_placeholder">例如：主账号</string><string name="account_id_support">32 位，可在 Cloudflare 控制台找到</string>
+    <string name="api_token_label">API Token</string><string name="api_token_replace_label">新 API Token（可留空）</string><string name="daily_limit_label">每日额度</string><string name="daily_limit_support">Workers Free 默认 100000</string><string name="guide_prompt">不知道去哪里找？查看完整教程</string><string name="default_account_name">Cloudflare 账号</string>
+    <string name="validation_account_id">Account ID 应为 32 位十六进制字符</string><string name="validation_daily_limit">请输入有效的每日额度</string><string name="validation_limit_positive">每日额度必须大于 0</string><string name="validation_api_token">请填写 Cloudflare API Token</string>
+    <string name="error_save_failed">保存失败</string><string name="error_token_unreadable">本机加密 Token 无法读取，请编辑账号后重新填写。</string><string name="error_network">网络连接失败，请检查网络后重试。</string>
+    <string name="error_bad_response">Cloudflare 返回的数据格式异常</string><string name="error_account_access">Token 无权访问该 Account ID</string><string name="error_no_usage">未获取到 Workers 用量数据</string><string name="error_token_invalid">Token 无效或已经过期</string><string name="error_permission">权限不足，请授予 Account Analytics Read</string><string name="error_rate_limit">Cloudflare 查询过于频繁，请稍后再试</string><string name="error_cloudflare_status">Cloudflare 服务暂时异常（%1$d）</string><string name="error_http_status">请求失败（HTTP %1$d）</string><string name="error_unauthorized">Token 无效或没有访问权限</string><string name="error_query_failed">Cloudflare 查询失败</string>
+    <string name="lock_credentials_locked">账号凭证已锁定</string><string name="auth_title">解锁 CF额度监控</string><string name="auth_subtitle">使用指纹、面容或锁屏密码验证</string><string name="auth_credential_description">验证身份后查看 Cloudflare 用量</string><string name="auth_cancelled">身份验证已取消</string><string name="auth_unavailable">生物识别暂时不可用，请稍后重试</string><string name="auth_too_many_attempts">验证尝试次数过多，请稍后再试或使用锁屏密码</string><string name="auth_not_enrolled">尚未录入生物识别，也未设置可用的锁屏验证</string><string name="auth_no_hardware">此设备没有可用的生物识别硬件</string><string name="auth_failed">身份验证失败</string><string name="auth_no_device_lock">手机尚未设置锁屏密码，请先在系统设置中设置</string><string name="auth_launch_failed">无法调用系统身份验证</string>
+    <string name="settings_title">设置</string><string name="settings_security">安全</string><string name="settings_lock_title">应用锁</string><string name="settings_lock_desc">离开应用后再次进入，需要指纹、面容或锁屏密码</string>
+    <string name="settings_language">语言</string><string name="settings_language_title">应用语言</string><string name="settings_language_desc">首次打开时自动跟随系统语言</string>
+    <string name="settings_background">后台刷新</string><string name="settings_background_title">允许后台刷新</string><string name="settings_background_desc">应用关闭时也定期缓存较新的用量</string><string name="settings_frequency">刷新频率</string><string name="settings_frequency_desc">选择 Android 尝试更新数据的间隔</string><string name="settings_schedule_note">后台时间为近似值。Android 可能因省电或无网络而延迟任务；每次打开应用仍会立即刷新。</string>
+    <string name="language_dialog_title">选择语言</string><string name="frequency_dialog_title">选择刷新频率</string>
+    <string name="language_system">跟随系统</string><string name="language_chinese">中文</string><string name="language_english">English</string><string name="language_russian">Русский</string><string name="language_italian">Italiano</string><string name="language_french">Français</string><string name="language_spanish">Español</string><string name="language_arabic">العربية</string>
+    <string name="frequency_15_minutes">15 分钟</string><string name="frequency_30_minutes">30 分钟</string><string name="frequency_1_hour">1 小时</string><string name="frequency_3_hours">3 小时</string><string name="frequency_6_hours">6 小时</string><string name="frequency_12_hours">12 小时</string><string name="frequency_24_hours">24 小时</string>
+    <string name="help_title">零基础配置教程</string><string name="help_intro_title">大约 3 分钟即可完成</string><string name="help_intro_body">每个 Cloudflare 账号分别创建一个最小权限 Token，安全且容易撤销。</string>
+    <string name="help_step1_title">登录 Cloudflare</string><string name="help_step1_body">用浏览器打开 dash.cloudflare.com 并登录，选择需要监控的账号。</string>
+    <string name="help_step2_title">复制 Account ID</string><string name="help_step2_body">进入 Workers &amp; Pages，在页面或账号概览中找到 32 位 Account ID，复制到本应用。</string>
+    <string name="help_step3_title">创建只读 API Token</string><string name="help_step3_body">打开个人资料 → API Tokens → Create Custom Token。只添加 Account → Account Analytics → Read，并将资源限制为要监控的账号。</string>
+    <string name="help_step4_title">复制并保存 Token</string><string name="help_step4_body">Cloudflare 只会完整显示 Token 一次。复制到本应用，不要使用 Global API Key，也不要把 Token 提交到 GitHub。</string>
+    <string name="help_step5_title">查看结果</string><string name="help_step5_body">应用查询 UTC 00:00 至当前的 Workers 请求数。免费版默认每天 100,000 次。</string>
+    <string name="help_why_title">为什么剩余额度是“估算”？</string><string name="help_why_body">Cloudflare Analytics 可能延迟数分钟，也不是计费计数器，临近 100% 时请预留余量。后台刷新可在设置中开启或关闭。</string>
+</resources>

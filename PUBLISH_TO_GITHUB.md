@@ -18,6 +18,14 @@ winget install --id GitHub.cli --exact
 gh auth login
 ```
 
+如果最后提示连接 `github.com/login/oauth/access_token` 超时，而电脑正在运行 Clash Verge，请在同一个 PowerShell 窗口执行：
+
+```powershell
+$env:HTTP_PROXY="http://127.0.0.1:7897"
+$env:HTTPS_PROXY="http://127.0.0.1:7897"
+gh auth login
+```
+
 依次选择：
 
 ```text
@@ -42,7 +50,7 @@ powershell -ExecutionPolicy Bypass -File .\publish-to-github.ps1
 3. 再次阻止签名密钥、本机配置和 APK 被提交到源码；
 4. 创建公开仓库 `cf-workers-quota-monitor`；
 5. 推送 `main` 分支；
-6. 创建 `v1.0.0` Release；
+6. 创建 `v1.2.0` Release；
 7. 上传签名 APK 和 SHA-256 校验文件。
 
 ## 手动命令
@@ -61,11 +69,11 @@ git config user.email "$login@users.noreply.github.com"
 
 git add .
 git status --short
-git commit -m "Initial release: CF额度监控 v1.0.0"
+git commit -m "Release CF额度监控 v1.2.0"
 
 gh repo create cf-workers-quota-monitor --public --source . --remote origin --push --description "安全、纯本地的 Cloudflare Workers 多账号额度监控 Android App"
 
-gh release create v1.0.0 ".\release\CF额度监控-v1.0.0.apk" ".\release\SHA256SUMS.txt" --title "CF额度监控 v1.0.0" --notes-file ".\release\RELEASE_NOTES.md"
+gh release create v1.2.0 ".\release\CF额度监控-v1.2.0.apk" ".\release\SHA256SUMS.txt" --title "CF额度监控 v1.2.0" --notes-file ".\release\RELEASE_NOTES.md"
 ```
 
 ## 绝对不要上传
