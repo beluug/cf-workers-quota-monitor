@@ -13,7 +13,7 @@ A beautiful, secure, local-first dashboard for monitoring daily Cloudflare Worke
 | Most Windows PCs with Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
 | Windows on ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
 | Portable Windows version | Matching `Portable.zip` |
-| Android 8.0+ | `CF-Quota-Monitor-v1.2.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
 
 Windows packages are currently unsigned and may show a SmartScreen “unknown publisher” warning. Download only from this repository's [Releases](../../releases/latest) and verify `SHA256SUMS-Windows.txt`.
 
@@ -25,9 +25,7 @@ Windows packages are currently unsigned and may show a SmartScreen “unknown pu
 - Optional background refresh; Windows continues while running in the system tray
 - Android Keystore protection on Android and per-user Windows DPAPI protection on Windows
 - No ads, analytics SDK, custom server, or cloud credential storage
-- Windows can export selected accounts to a password-protected `.cfqm` backup and import with duplicate handling
-
-Android v1.2 does not yet import `.cfqm`; a later mobile release will adopt the same documented format.
+- Android and Windows can export selected accounts to a password-protected `.cfqm` backup, import it across platforms, and choose how duplicates are handled
 
 <p align="center"><img src="docs/images/v1.2-main-en.png" alt="Android main screen" width="300"> &nbsp; <img src="docs/images/v1.2-settings-en.png" alt="Android settings" width="300"></p>
 

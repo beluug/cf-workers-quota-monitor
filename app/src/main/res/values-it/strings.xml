@@ -13,4 +13,38 @@
     <string name="language_dialog_title">Scegli la lingua</string><string name="frequency_dialog_title">Scegli la frequenza</string><string name="language_system">Segui il sistema</string><string name="language_chinese">中文</string><string name="language_english">English</string><string name="language_russian">Русский</string><string name="language_italian">Italiano</string><string name="language_french">Français</string><string name="language_spanish">Español</string><string name="language_arabic">العربية</string>
     <string name="frequency_15_minutes">15 minuti</string><string name="frequency_30_minutes">30 minuti</string><string name="frequency_1_hour">1 ora</string><string name="frequency_3_hours">3 ore</string><string name="frequency_6_hours">6 ore</string><string name="frequency_12_hours">12 ore</string><string name="frequency_24_hours">24 ore</string>
     <string name="help_title">Guida per principianti</string><string name="help_intro_title">Pronto in circa 3 minuti</string><string name="help_intro_body">Crea un token con privilegi minimi per ogni account Cloudflare: è sicuro e facile da revocare.</string><string name="help_step1_title">Accedi a Cloudflare</string><string name="help_step1_body">Apri dash.cloudflare.com, accedi e scegli l’account da monitorare.</string><string name="help_step2_title">Copia l’Account ID</string><string name="help_step2_body">Apri Workers &amp; Pages, trova l’Account ID di 32 caratteri e copialo nell’app.</string><string name="help_step3_title">Crea un API Token di sola lettura</string><string name="help_step3_body">Apri Profile → API Tokens → Create Custom Token. Aggiungi solo Account → Account Analytics → Read e limita la risorsa all’account monitorato.</string><string name="help_step4_title">Copia e salva il token</string><string name="help_step4_body">Cloudflare mostra il token completo una sola volta. Copialo nell’app. Non usare una Global API Key e non pubblicarlo su GitHub.</string><string name="help_step5_title">Visualizza il risultato</string><string name="help_step5_body">L’app interroga le richieste Workers da UTC 00:00. Il limite Free predefinito è 100.000 richieste al giorno.</string><string name="help_why_title">Perché il residuo è una stima?</string><string name="help_why_body">Cloudflare Analytics può avere alcuni minuti di ritardo e non è il contatore di fatturazione. Lascia un margine vicino al 100%. Il background si gestisce nelle Impostazioni.</string>
+    <string name="action_ok">OK</string>
+    <string name="action_continue">Continua</string>
+    <string name="settings_transfer">TRASFERIMENTO ACCOUNT</string>
+    <string name="settings_transfer_title">Backup account cifrato</string>
+    <string name="settings_transfer_desc">Esporta gli account selezionati o importa un backup .cfqm compatibile con Windows.</string>
+    <string name="action_export_accounts">Esporta account</string>
+    <string name="action_import_backup">Importa backup</string>
+    <string name="transfer_security_note">Il backup contiene gli API Token ed è protetto dalla password scelta. La password non può essere recuperata.</string>
+    <string name="export_title">Esporta backup cifrato</string>
+    <string name="export_description">Scegli gli account da includere e crea una password per il backup.</string>
+    <string name="select_all">Seleziona tutti gli account</string>
+    <string name="backup_password">Password del backup</string>
+    <string name="backup_password_confirm">Conferma password</string>
+    <string name="backup_password_support">Almeno 8 caratteri. Conservala in un luogo sicuro.</string>
+    <string name="backup_password_mismatch">Le due password non corrispondono</string>
+    <string name="backup_select_account">Seleziona almeno un account</string>
+    <string name="backup_password_short">La password deve contenere almeno 8 caratteri</string>
+    <string name="export_success">Account esportati correttamente: %1$d</string>
+    <string name="import_password_title">Sblocca backup</string>
+    <string name="import_password_desc">Inserisci la password usata per esportare questo file .cfqm.</string>
+    <string name="import_preview_title">Controlla gli account da importare</string>
+    <string name="import_preview_desc">Il backup contiene %1$d account. Nulla verrà modificato prima della conferma.</string>
+    <string name="duplicate_handling">Se un Account ID esiste già</string>
+    <string name="duplicate_skip">Ignora il duplicato</string>
+    <string name="duplicate_replace">Sostituisci account e Token salvati</string>
+    <string name="duplicate_keep_both">Mantieni entrambi gli account</string>
+    <string name="import_success">Importazione completata: %1$d importati, %2$d ignorati</string>
+    <string name="transfer_error_title">Trasferimento account non riuscito</string>
+    <string name="backup_invalid">Questo non è un backup CF Quota Monitor valido</string>
+    <string name="backup_unsupported">Versione o cifratura del backup non supportata</string>
+    <string name="backup_wrong_password">Password errata oppure file modificato</string>
+    <string name="backup_read_failed">Impossibile leggere il file selezionato</string>
+    <string name="backup_write_failed">Impossibile salvare il backup sul dispositivo</string>
+    <string name="transfer_working">Elaborazione del backup cifrato…</string>
 </resources>

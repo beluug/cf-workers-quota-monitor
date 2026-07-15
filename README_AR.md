@@ -15,7 +15,7 @@
 | Windows بمعالج Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
 | Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
 | نسخة Windows محمولة | ملف `Portable.zip` المناسب |
-| Android 8.0 أو أحدث | `CF-Quota-Monitor-v1.2.0.apk` |
+| Android 8.0 أو أحدث | `CF-Quota-Monitor-v1.3.0.apk` |
 
 حزم Windows غير موقعة حاليًا وقد يعرض SmartScreen تحذير «ناشر غير معروف». نزّلها فقط من [Releases](../../releases/latest) وتحقق من `SHA256SUMS-Windows.txt`.
 
@@ -27,9 +27,7 @@
 - تحديث اختياري في الخلفية؛ يستمر Windows في شريط النظام
 - Android Keystore وDPAPI الخاص بمستخدم Windows الحالي
 - بلا إعلانات أو تحليلات أو خادم خاص أو تخزين سحابي للرموز
-- يصدّر Windows الحسابات المحددة إلى ملف `.cfqm` مشفر بكلمة مرور
-
-لا يدعم Android v1.2 استيراد `.cfqm` بعد؛ سيستخدم إصدار محمول لاحق التنسيق نفسه.
+- يصدّر Android وWindows الحسابات المحددة إلى ملف `.cfqm` مشفر بكلمة مرور ومتوافق بين النظامين
 
 <p align="center"><img src="docs/images/v1.2-main-ar.png" alt="Android" width="300"> &nbsp; <img src="docs/images/v1.2-settings-ar.png" alt="إعدادات Android" width="300"></p>
 

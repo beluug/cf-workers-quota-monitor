@@ -1,11 +1,19 @@
 package com.cfquotamonitor.app.ui
 
 import android.app.Application
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.cfquotamonitor.app.R
 import com.cfquotamonitor.app.background.BackgroundRefreshScheduler
+import com.cfquotamonitor.app.backup.BackupAccount
+import com.cfquotamonitor.app.backup.BackupError
+import com.cfquotamonitor.app.backup.BackupException
+import com.cfquotamonitor.app.backup.BackupPayload
+import com.cfquotamonitor.app.backup.CfqmBackupService
+import com.cfquotamonitor.app.backup.DuplicateMode
+import com.cfquotamonitor.app.backup.ImportResult
 import com.cfquotamonitor.app.data.AccountStore
 import com.cfquotamonitor.app.model.AccountUiState
 import com.cfquotamonitor.app.model.CfAccount
@@ -21,6 +29,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val store = AccountStore(application)
@@ -32,6 +41,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    private val _isTransferring = MutableStateFlow(false)
+    val isTransferring: StateFlow<Boolean> = _isTransferring.asStateFlow()
 
     private val _settings = MutableStateFlow(settingsStore.load())
     val settings: StateFlow<AppSettings> = _settings.asStateFlow()
@@ -129,6 +141,89 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteAccount(localId: String) {
         store.delete(localId)
         _accounts.value = _accounts.value.filterNot { it.account.localId == localId }
+    }
+
+    fun exportBackup(
+        uri: Uri,
+        selectedIds: Set<String>,
+        password: String,
+        onComplete: (Int?, BackupError?) -> Unit,
+    ) {
+        viewModelScope.launch {
+            _isTransferring.value = true
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    val selected = _accounts.value.map { it.account }.filter { it.localId in selectedIds }
+                    val backupAccounts = selected.map { account ->
+                        val token = store.tokenFor(account.localId)
+                            ?: throw BackupException(BackupError.TOKEN_UNREADABLE)
+                        BackupAccount(account.name, account.accountId, account.dailyLimit, token)
+                    }
+                    val bytes = CfqmBackupService.export(backupAccounts, password)
+                    getApplication<Application>().contentResolver.openOutputStream(uri, "w")?.use {
+                        it.write(bytes)
+                        it.flush()
+                    } ?: throw BackupException(BackupError.WRITE_FAILED)
+                    backupAccounts.size
+                }
+            }
+            _isTransferring.value = false
+            result.fold(
+                onSuccess = { onComplete(it, null) },
+                onFailure = { onComplete(null, (it as? BackupException)?.reason ?: BackupError.WRITE_FAILED) },
+            )
+        }
+    }
+
+    fun previewBackup(uri: Uri, password: String, onComplete: (BackupPayload?, BackupError?) -> Unit) {
+        viewModelScope.launch {
+            _isTransferring.value = true
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    val input = getApplication<Application>().contentResolver.openInputStream(uri)
+                        ?: throw BackupException(BackupError.READ_FAILED)
+                    val bytes = input.use { stream ->
+                        val output = ByteArrayOutputStream()
+                        val buffer = ByteArray(8192)
+                        while (true) {
+                            val count = stream.read(buffer)
+                            if (count < 0) break
+                            output.write(buffer, 0, count)
+                            if (output.size() > CfqmBackupService.MAX_FILE_BYTES) {
+                                throw BackupException(BackupError.INVALID)
+                            }
+                        }
+                        output.toByteArray()
+                    }
+                    CfqmBackupService.import(bytes, password)
+                }
+            }
+            _isTransferring.value = false
+            result.fold(
+                onSuccess = { onComplete(it, null) },
+                onFailure = { onComplete(null, (it as? BackupException)?.reason ?: BackupError.READ_FAILED) },
+            )
+        }
+    }
+
+    fun importBackup(payload: BackupPayload, mode: DuplicateMode, onComplete: (ImportResult?, BackupError?) -> Unit) {
+        viewModelScope.launch {
+            _isTransferring.value = true
+            val result = withContext(Dispatchers.IO) { runCatching { store.importAccounts(payload.accounts, mode) } }
+            result.onSuccess {
+                _accounts.value = store.loadAccounts().map { account ->
+                    AccountUiState(account = account, usage = store.loadUsage(account.localId))
+                }
+            }
+            _isTransferring.value = false
+            result.fold(
+                onSuccess = {
+                    onComplete(it, null)
+                    refreshAll()
+                },
+                onFailure = { onComplete(null, BackupError.WRITE_FAILED) },
+            )
+        }
     }
 
     private fun refreshOne(localId: String) {

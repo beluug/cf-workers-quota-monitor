@@ -13,4 +13,38 @@
     <string name="language_dialog_title">Выберите язык</string><string name="frequency_dialog_title">Выберите частоту</string><string name="language_system">Как в системе</string><string name="language_chinese">中文</string><string name="language_english">English</string><string name="language_russian">Русский</string><string name="language_italian">Italiano</string><string name="language_french">Français</string><string name="language_spanish">Español</string><string name="language_arabic">العربية</string>
     <string name="frequency_15_minutes">15 минут</string><string name="frequency_30_minutes">30 минут</string><string name="frequency_1_hour">1 час</string><string name="frequency_3_hours">3 часа</string><string name="frequency_6_hours">6 часов</string><string name="frequency_12_hours">12 часов</string><string name="frequency_24_hours">24 часа</string>
     <string name="help_title">Инструкция для начинающих</string><string name="help_intro_title">Около 3 минут</string><string name="help_intro_body">Создайте токен с минимальными правами для каждого аккаунта Cloudflare. Его легко отозвать.</string><string name="help_step1_title">Войдите в Cloudflare</string><string name="help_step1_body">Откройте dash.cloudflare.com, войдите и выберите аккаунт для мониторинга.</string><string name="help_step2_title">Скопируйте Account ID</string><string name="help_step2_body">Откройте Workers &amp; Pages. Найдите 32-значный Account ID и вставьте его в приложение.</string><string name="help_step3_title">Создайте API Token только для чтения</string><string name="help_step3_body">Откройте Profile → API Tokens → Create Custom Token. Добавьте только Account → Account Analytics → Read и ограничьте ресурс нужным аккаунтом.</string><string name="help_step4_title">Скопируйте и сохраните токен</string><string name="help_step4_body">Полный токен показывается один раз. Вставьте его в приложение. Не используйте Global API Key и не публикуйте токен на GitHub.</string><string name="help_step5_title">Посмотрите результат</string><string name="help_step5_body">Приложение запрашивает обращения Workers с 00:00 UTC. Лимит Free по умолчанию — 100 000 в день.</string><string name="help_why_title">Почему остаток приблизительный?</string><string name="help_why_body">Cloudflare Analytics может отставать на несколько минут и не является счётчиком оплаты. Оставляйте запас около 100%. Фоновое обновление настраивается в Настройках.</string>
+    <string name="action_ok">ОК</string>
+    <string name="action_continue">Продолжить</string>
+    <string name="settings_transfer">ПЕРЕНОС АККАУНТОВ</string>
+    <string name="settings_transfer_title">Зашифрованная резервная копия</string>
+    <string name="settings_transfer_desc">Экспортируйте выбранные аккаунты или импортируйте резервную копию .cfqm, совместимую с Windows.</string>
+    <string name="action_export_accounts">Экспортировать</string>
+    <string name="action_import_backup">Импортировать</string>
+    <string name="transfer_security_note">Резервная копия содержит API Token и защищена выбранным паролем. Восстановить пароль невозможно.</string>
+    <string name="export_title">Экспорт зашифрованной копии</string>
+    <string name="export_description">Выберите аккаунты и задайте пароль резервной копии.</string>
+    <string name="select_all">Выбрать все аккаунты</string>
+    <string name="backup_password">Пароль резервной копии</string>
+    <string name="backup_password_confirm">Подтвердите пароль</string>
+    <string name="backup_password_support">Не менее 8 символов. Сохраните пароль в надёжном месте.</string>
+    <string name="backup_password_mismatch">Пароли не совпадают</string>
+    <string name="backup_select_account">Выберите хотя бы один аккаунт</string>
+    <string name="backup_password_short">Пароль должен содержать не менее 8 символов</string>
+    <string name="export_success">Успешно экспортировано аккаунтов: %1$d</string>
+    <string name="import_password_title">Разблокировать копию</string>
+    <string name="import_password_desc">Введите пароль, заданный при экспорте файла .cfqm.</string>
+    <string name="import_preview_title">Проверка импортируемых аккаунтов</string>
+    <string name="import_preview_desc">В копии аккаунтов: %1$d. До подтверждения ничего не изменится.</string>
+    <string name="duplicate_handling">Если Account ID уже существует</string>
+    <string name="duplicate_skip">Пропустить дубликат</string>
+    <string name="duplicate_replace">Заменить аккаунт и Token</string>
+    <string name="duplicate_keep_both">Сохранить оба аккаунта</string>
+    <string name="import_success">Импорт завершён: импортировано %1$d, пропущено %2$d</string>
+    <string name="transfer_error_title">Ошибка переноса аккаунтов</string>
+    <string name="backup_invalid">Это недопустимая резервная копия CF Quota Monitor</string>
+    <string name="backup_unsupported">Версия копии или способ шифрования не поддерживается</string>
+    <string name="backup_wrong_password">Неверный пароль или файл был изменён</string>
+    <string name="backup_read_failed">Не удалось прочитать выбранный файл</string>
+    <string name="backup_write_failed">Не удалось сохранить копию на устройстве</string>
+    <string name="transfer_working">Обработка зашифрованной копии…</string>
 </resources>

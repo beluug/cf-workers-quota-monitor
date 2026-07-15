@@ -16,6 +16,8 @@ try
     var backupPath = Path.Combine(folder, "roundtrip.cfqm");
     var backup = new BackupService();
     backup.Export(backupPath, new[] { original }, storage, "correct-horse-battery-staple");
+    var vectorOutput = Environment.GetEnvironmentVariable("CFQM_VECTOR_OUTPUT");
+    if (!string.IsNullOrWhiteSpace(vectorOutput)) File.Copy(backupPath, vectorOutput, true);
     var containerJson = File.ReadAllText(backupPath);
     if (!containerJson.Contains("\"format\"") || containerJson.Contains("\"Format\""))
         throw new Exception("CFQM container is not using the documented camelCase schema");
@@ -30,6 +32,17 @@ try
         throw new Exception("Wrong password was accepted");
     }
     catch (BackupException ex) when (ex.ResourceKey == "backup_wrong_password") { }
+
+    var androidVector = Environment.GetEnvironmentVariable("CFQM_ANDROID_VECTOR_BASE64");
+    if (!string.IsNullOrWhiteSpace(androidVector))
+    {
+        var androidPath = Path.Combine(folder, "android-vector.cfqm");
+        File.WriteAllBytes(androidPath, Convert.FromBase64String(androidVector));
+        var androidPayload = backup.Import(androidPath, "correct-horse-battery-staple");
+        if (androidPayload.SourcePlatform != "android" || androidPayload.Accounts.Count != 1 ||
+            androidPayload.Accounts[0].Token != "test_token_that_is_long_enough_but_not_real")
+            throw new Exception("Android export was not compatible with Windows");
+    }
 
     var importedStorage = new StorageService(Path.Combine(folder, "imported"));
     var result = importedStorage.ImportAccounts(payload.Accounts, DuplicateMode.Skip);

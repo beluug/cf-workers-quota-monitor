@@ -13,4 +13,38 @@
     <string name="language_dialog_title">اختر اللغة</string><string name="frequency_dialog_title">اختر تكرار التحديث</string><string name="language_system">اتباع النظام</string><string name="language_chinese">中文</string><string name="language_english">English</string><string name="language_russian">Русский</string><string name="language_italian">Italiano</string><string name="language_french">Français</string><string name="language_spanish">Español</string><string name="language_arabic">العربية</string>
     <string name="frequency_15_minutes">15 دقيقة</string><string name="frequency_30_minutes">30 دقيقة</string><string name="frequency_1_hour">ساعة واحدة</string><string name="frequency_3_hours">3 ساعات</string><string name="frequency_6_hours">6 ساعات</string><string name="frequency_12_hours">12 ساعة</string><string name="frequency_24_hours">24 ساعة</string>
     <string name="help_title">دليل الإعداد للمبتدئين</string><string name="help_intro_title">جاهز خلال نحو 3 دقائق</string><string name="help_intro_body">أنشئ رمزاً بأقل الصلاحيات لكل حساب Cloudflare. إنه آمن وسهل الإلغاء.</string><string name="help_step1_title">سجّل الدخول إلى Cloudflare</string><string name="help_step1_body">افتح dash.cloudflare.com وسجّل الدخول واختر الحساب المراد مراقبته.</string><string name="help_step2_title">انسخ Account ID</string><string name="help_step2_body">افتح Workers &amp; Pages، وابحث عن Account ID المكون من 32 حرفاً وانسخه إلى التطبيق.</string><string name="help_step3_title">أنشئ API Token للقراءة فقط</string><string name="help_step3_body">افتح Profile → API Tokens → Create Custom Token. أضف فقط Account → Account Analytics → Read واقصر المورد على الحساب المراقب.</string><string name="help_step4_title">انسخ الرمز واحفظه</string><string name="help_step4_body">يعرض Cloudflare الرمز كاملاً مرة واحدة فقط. انسخه إلى التطبيق. لا تستخدم Global API Key ولا تنشر الرمز على GitHub.</string><string name="help_step5_title">اعرض النتيجة</string><string name="help_step5_body">يستعلم التطبيق عن طلبات Workers منذ 00:00 UTC. الحد المجاني الافتراضي 100,000 طلب يومياً.</string><string name="help_why_title">لماذا الحصة المتبقية تقديرية؟</string><string name="help_why_body">قد تتأخر Cloudflare Analytics بضع دقائق وليست عداد الفوترة. اترك هامشاً قرب 100%. يمكن ضبط التحديث في الخلفية من الإعدادات.</string>
+    <string name="action_ok">موافق</string>
+    <string name="action_continue">متابعة</string>
+    <string name="settings_transfer">نقل الحسابات</string>
+    <string name="settings_transfer_title">نسخة احتياطية مشفرة للحسابات</string>
+    <string name="settings_transfer_desc">صدّر الحسابات المحددة أو استورد نسخة .cfqm متوافقة مع تطبيق Windows.</string>
+    <string name="action_export_accounts">تصدير الحسابات</string>
+    <string name="action_import_backup">استيراد نسخة</string>
+    <string name="transfer_security_note">تتضمن النسخة رموز API Token وتحميها كلمة المرور التي تختارها. لا يمكن استعادة كلمة المرور.</string>
+    <string name="export_title">تصدير نسخة مشفرة</string>
+    <string name="export_description">اختر الحسابات المطلوب تضمينها ثم أنشئ كلمة مرور للنسخة.</string>
+    <string name="select_all">تحديد كل الحسابات</string>
+    <string name="backup_password">كلمة مرور النسخة</string>
+    <string name="backup_password_confirm">تأكيد كلمة المرور</string>
+    <string name="backup_password_support">8 أحرف على الأقل. احتفظ بها في مكان آمن.</string>
+    <string name="backup_password_mismatch">كلمتا المرور غير متطابقتين</string>
+    <string name="backup_select_account">حدد حساباً واحداً على الأقل</string>
+    <string name="backup_password_short">يجب أن تتكون كلمة المرور من 8 أحرف على الأقل</string>
+    <string name="export_success">تم تصدير %1$d من الحسابات بنجاح</string>
+    <string name="import_password_title">فتح النسخة الاحتياطية</string>
+    <string name="import_password_desc">أدخل كلمة المرور المستخدمة عند تصدير ملف .cfqm هذا.</string>
+    <string name="import_preview_title">مراجعة الحسابات المستوردة</string>
+    <string name="import_preview_desc">تحتوي النسخة على %1$d من الحسابات. لن يتغير شيء قبل التأكيد.</string>
+    <string name="duplicate_handling">إذا كان Account ID موجوداً</string>
+    <string name="duplicate_skip">تخطي الحساب المكرر</string>
+    <string name="duplicate_replace">استبدال الحساب وToken المحفوظين</string>
+    <string name="duplicate_keep_both">الاحتفاظ بالحسابين</string>
+    <string name="import_success">اكتمل الاستيراد: تم استيراد %1$d وتخطي %2$d</string>
+    <string name="transfer_error_title">فشل نقل الحسابات</string>
+    <string name="backup_invalid">هذه ليست نسخة CF Quota Monitor صالحة</string>
+    <string name="backup_unsupported">إصدار النسخة أو طريقة التشفير غير مدعومة</string>
+    <string name="backup_wrong_password">كلمة المرور غير صحيحة أو تم تعديل الملف</string>
+    <string name="backup_read_failed">تعذرت قراءة الملف المحدد</string>
+    <string name="backup_write_failed">تعذر حفظ النسخة على هذا الجهاز</string>
+    <string name="transfer_working">جارٍ معالجة النسخة المشفرة…</string>
 </resources>

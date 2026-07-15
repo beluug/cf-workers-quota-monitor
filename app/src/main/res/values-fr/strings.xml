@@ -13,4 +13,38 @@
     <string name="language_dialog_title">Choisir la langue</string><string name="frequency_dialog_title">Choisir la fréquence</string><string name="language_system">Suivre le système</string><string name="language_chinese">中文</string><string name="language_english">English</string><string name="language_russian">Русский</string><string name="language_italian">Italiano</string><string name="language_french">Français</string><string name="language_spanish">Español</string><string name="language_arabic">العربية</string>
     <string name="frequency_15_minutes">15 minutes</string><string name="frequency_30_minutes">30 minutes</string><string name="frequency_1_hour">1 heure</string><string name="frequency_3_hours">3 heures</string><string name="frequency_6_hours">6 heures</string><string name="frequency_12_hours">12 heures</string><string name="frequency_24_hours">24 heures</string>
     <string name="help_title">Guide pour débutants</string><string name="help_intro_title">Prêt en 3 minutes environ</string><string name="help_intro_body">Créez un jeton à privilèges minimaux pour chaque compte Cloudflare. Il est sûr et facile à révoquer.</string><string name="help_step1_title">Connectez-vous à Cloudflare</string><string name="help_step1_body">Ouvrez dash.cloudflare.com, connectez-vous et choisissez le compte à surveiller.</string><string name="help_step2_title">Copiez l’Account ID</string><string name="help_step2_body">Ouvrez Workers &amp; Pages, trouvez l’Account ID de 32 caractères et copiez-le dans l’application.</string><string name="help_step3_title">Créez un API Token en lecture seule</string><string name="help_step3_body">Ouvrez Profile → API Tokens → Create Custom Token. Ajoutez uniquement Account → Account Analytics → Read et limitez la ressource au compte surveillé.</string><string name="help_step4_title">Copiez et enregistrez le jeton</string><string name="help_step4_body">Cloudflare n’affiche le jeton complet qu’une fois. Copiez-le dans l’application. N’utilisez pas de Global API Key et ne publiez jamais le jeton sur GitHub.</string><string name="help_step5_title">Consultez le résultat</string><string name="help_step5_body">L’application interroge les requêtes Workers depuis 00:00 UTC. La limite Free par défaut est de 100 000 requêtes par jour.</string><string name="help_why_title">Pourquoi le quota restant est-il estimé ?</string><string name="help_why_body">Cloudflare Analytics peut avoir plusieurs minutes de retard et n’est pas le compteur de facturation. Gardez une marge près de 100 %. L’arrière-plan se règle dans Paramètres.</string>
+    <string name="action_ok">OK</string>
+    <string name="action_continue">Continuer</string>
+    <string name="settings_transfer">TRANSFERT DES COMPTES</string>
+    <string name="settings_transfer_title">Sauvegarde chiffrée des comptes</string>
+    <string name="settings_transfer_desc">Exportez les comptes sélectionnés ou importez une sauvegarde .cfqm compatible avec Windows.</string>
+    <string name="action_export_accounts">Exporter les comptes</string>
+    <string name="action_import_backup">Importer</string>
+    <string name="transfer_security_note">La sauvegarde contient les API Token et est protégée par le mot de passe choisi. Ce mot de passe est irrécupérable.</string>
+    <string name="export_title">Exporter une sauvegarde chiffrée</string>
+    <string name="export_description">Choisissez les comptes à inclure, puis créez un mot de passe.</string>
+    <string name="select_all">Sélectionner tous les comptes</string>
+    <string name="backup_password">Mot de passe de sauvegarde</string>
+    <string name="backup_password_confirm">Confirmer le mot de passe</string>
+    <string name="backup_password_support">Au moins 8 caractères. Conservez-le en lieu sûr.</string>
+    <string name="backup_password_mismatch">Les deux mots de passe ne correspondent pas</string>
+    <string name="backup_select_account">Sélectionnez au moins un compte</string>
+    <string name="backup_password_short">Le mot de passe doit contenir au moins 8 caractères</string>
+    <string name="export_success">Comptes exportés avec succès : %1$d</string>
+    <string name="import_password_title">Déverrouiller la sauvegarde</string>
+    <string name="import_password_desc">Saisissez le mot de passe utilisé lors de l’exportation de ce fichier .cfqm.</string>
+    <string name="import_preview_title">Vérifier les comptes importés</string>
+    <string name="import_preview_desc">La sauvegarde contient %1$d compte(s). Rien ne sera modifié avant confirmation.</string>
+    <string name="duplicate_handling">Si un Account ID existe déjà</string>
+    <string name="duplicate_skip">Ignorer le doublon</string>
+    <string name="duplicate_replace">Remplacer le compte et le Token</string>
+    <string name="duplicate_keep_both">Conserver les deux comptes</string>
+    <string name="import_success">Importation terminée : %1$d importé(s), %2$d ignoré(s)</string>
+    <string name="transfer_error_title">Échec du transfert des comptes</string>
+    <string name="backup_invalid">Cette sauvegarde CF Quota Monitor n’est pas valide</string>
+    <string name="backup_unsupported">Cette version ou ce chiffrement n’est pas pris en charge</string>
+    <string name="backup_wrong_password">Mot de passe incorrect ou fichier modifié</string>
+    <string name="backup_read_failed">Impossible de lire le fichier sélectionné</string>
+    <string name="backup_write_failed">Impossible d’enregistrer la sauvegarde sur cet appareil</string>
+    <string name="transfer_working">Traitement de la sauvegarde chiffrée…</string>
 </resources>

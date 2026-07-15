@@ -13,7 +13,7 @@ Une application belle, sûre et entièrement locale pour suivre le quota quotidi
 | Windows Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
 | Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
 | Windows portable | Le `Portable.zip` correspondant |
-| Android 8.0+ | `CF-Quota-Monitor-v1.2.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
 
 Les paquets Windows ne sont pas encore signés et SmartScreen peut afficher « éditeur inconnu ». Téléchargez-les uniquement depuis [Releases](../../releases/latest) et vérifiez `SHA256SUMS-Windows.txt`.
 
@@ -25,9 +25,7 @@ Les paquets Windows ne sont pas encore signés et SmartScreen peut afficher « �
 - Actualisation facultative en arrière-plan ; Windows continue dans la zone de notification
 - Android Keystore et DPAPI de l'utilisateur Windows actuel
 - Sans publicité, analytique, serveur propriétaire ni stockage cloud des jetons
-- Windows exporte les comptes sélectionnés dans un fichier `.cfqm` chiffré par mot de passe
-
-Android v1.2 n'importe pas encore `.cfqm` ; une version mobile ultérieure utilisera le même format.
+- Android et Windows exportent les comptes sélectionnés dans un fichier `.cfqm` chiffré par mot de passe et compatible entre plateformes
 
 <p align="center"><img src="docs/images/v1.2-main-fr.png" alt="Android" width="300"> &nbsp; <img src="docs/images/v1.2-settings-fr.png" alt="Paramètres Android" width="300"></p>
 

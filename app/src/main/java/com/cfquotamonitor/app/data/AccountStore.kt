@@ -1,6 +1,9 @@
 package com.cfquotamonitor.app.data
 
 import android.content.Context
+import com.cfquotamonitor.app.backup.BackupAccount
+import com.cfquotamonitor.app.backup.DuplicateMode
+import com.cfquotamonitor.app.backup.ImportResult
 import com.cfquotamonitor.app.model.CfAccount
 import com.cfquotamonitor.app.model.UsageSnapshot
 import com.cfquotamonitor.app.security.SecureTokenStore
@@ -76,6 +79,37 @@ class AccountStore(context: Context) {
             .remove("$localId.usage_fetched_at")
             .apply()
         tokens.remove(localId)
+    }
+
+    fun importAccounts(incoming: List<BackupAccount>, mode: DuplicateMode): ImportResult {
+        val known = loadAccounts().toMutableList()
+        var imported = 0
+        var skipped = 0
+        incoming.forEach { item ->
+            val existing = known.firstOrNull { it.accountId.equals(item.accountId, ignoreCase = true) }
+            when {
+                existing != null && mode == DuplicateMode.SKIP -> skipped++
+                existing != null && mode == DuplicateMode.REPLACE -> {
+                    val updated = existing.copy(
+                        name = item.name,
+                        accountId = item.accountId,
+                        dailyLimit = item.dailyLimit,
+                    )
+                    update(updated, item.token)
+                    prefs.edit()
+                        .remove("${existing.localId}.usage_used")
+                        .remove("${existing.localId}.usage_fetched_at")
+                        .apply()
+                    known[known.indexOf(existing)] = updated
+                    imported++
+                }
+                else -> {
+                    known += create(item.name, item.accountId, item.dailyLimit, item.token)
+                    imported++
+                }
+            }
+        }
+        return ImportResult(imported, skipped)
     }
 
     private fun accountOrder(): List<String> = prefs.getString("order", "")

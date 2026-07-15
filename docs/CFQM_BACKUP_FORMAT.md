@@ -28,7 +28,7 @@ The 32-byte encryption key is derived from the UTF-8 backup password. AES-GCM ad
 {
   "schemaVersion": 1,
   "exportedAtUtc": "ISO-8601 timestamp",
-  "sourcePlatform": "windows",
+  "sourcePlatform": "android or windows",
   "accounts": [
     {
       "name": "local display name",

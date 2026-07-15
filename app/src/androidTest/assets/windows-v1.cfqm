@@ -1,0 +1,11 @@
+{
+  "format": "cfqm-encrypted-backup",
+  "version": 1,
+  "kdf": "PBKDF2-HMAC-SHA256",
+  "iterations": 310000,
+  "salt": "\u002B8lHlJLB/FUAjpOWANjWjw==",
+  "cipher": "AES-256-GCM",
+  "nonce": "9pupGRLOH\u002BGxrzCn",
+  "tag": "M0Ye4NXvWxSeEfQdEUj36w==",
+  "payload": "Tncg759nMXssypQXfLF7qD\u002Bl96MgNLM9Lx7ANn1RSsuL7UC3enbE3nq6dN9XqAdOYjDu3LRg1\u002BrQKGNSB82M0JvnH0jBgjZBVlpuNPCwyb/hPloKig3Vha65msAotaN3SBSYieogsGny8CNAukKy9xlYnyrp5VDDP4ePP2xya0xnrvBmJ4vgnC0Bev\u002BSI88DAZwxwSxEscGqBQK4Jr\u002BkynzmEq8JI/zh1KP0d1Oq0gr5rGK5OKuNUOTKNukKllNENtKDcqdyaJ4XFG8xtmrLDKcrUzrsxXezwWy2nVO1zlblYsDrTRXZX\u002BRLdFUW45zDdbblbEpTaNpP6n9SE5cuLA4L4EnIqWnOZ1a0Y0YLtgTxk99318oONy0zaMEnEEkCD\u002B1SVxbxmi5bWCLlsuMyGe\u002BxSLVofUPf\u002BYtI6Sz9b0hXL8n1kjlNiw=="
+}

@@ -1,6 +1,9 @@
 package com.cfquotamonitor.app.ui
 
+import android.net.Uri
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -33,11 +36,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -72,6 +77,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.cfquotamonitor.app.R
+import com.cfquotamonitor.app.backup.BackupError
+import com.cfquotamonitor.app.backup.BackupPayload
+import com.cfquotamonitor.app.backup.DuplicateMode
+import com.cfquotamonitor.app.backup.ImportResult
 import com.cfquotamonitor.app.model.AccountUiState
 import com.cfquotamonitor.app.model.CfAccount
 import com.cfquotamonitor.app.settings.AppSettings
@@ -84,20 +93,57 @@ import com.cfquotamonitor.app.util.formatCount
 import com.cfquotamonitor.app.util.formatFetchedTime
 import com.cfquotamonitor.app.util.resetCountdownParts
 import kotlinx.coroutines.delay
+import java.time.LocalDate
 import kotlin.math.roundToInt
 
 private val refreshIntervals = listOf(15L, 30L, 60L, 180L, 360L, 720L, 1440L)
+
+private data class ExportRequest(val accountIds: Set<String>, val password: String)
+
+private sealed interface TransferNotice {
+    data class Exported(val count: Int) : TransferNotice
+    data class Imported(val result: ImportResult) : TransferNotice
+}
 
 @Composable
 fun CfQuotaApp(viewModel: MainViewModel, onLanguageChanged: () -> Unit) {
     val accounts by viewModel.accounts.collectAsState()
     val refreshing by viewModel.isRefreshing.collectAsState()
+    val transferring by viewModel.isTransferring.collectAsState()
     val settings by viewModel.settings.collectAsState()
     var showHelp by rememberSaveable { mutableStateOf(false) }
     var showSettings by rememberSaveable { mutableStateOf(false) }
     var showAccountDialog by remember { mutableStateOf(false) }
     var editingAccount by remember { mutableStateOf<CfAccount?>(null) }
     var deletingAccount by remember { mutableStateOf<CfAccount?>(null) }
+    var showExportDialog by remember { mutableStateOf(false) }
+    var pendingExport by remember { mutableStateOf<ExportRequest?>(null) }
+    var importUri by remember { mutableStateOf<Uri?>(null) }
+    var showImportPassword by remember { mutableStateOf(false) }
+    var importPasswordError by remember { mutableStateOf<BackupError?>(null) }
+    var importPreview by remember { mutableStateOf<BackupPayload?>(null) }
+    var transferError by remember { mutableStateOf<BackupError?>(null) }
+    var transferNotice by remember { mutableStateOf<TransferNotice?>(null) }
+
+    val createBackup = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("application/json")
+    ) { uri ->
+        val request = pendingExport
+        pendingExport = null
+        if (uri != null && request != null) {
+            viewModel.exportBackup(uri, request.accountIds, request.password) { count, error ->
+                if (count != null) transferNotice = TransferNotice.Exported(count)
+                else transferError = error ?: BackupError.WRITE_FAILED
+            }
+        }
+    }
+    val openBackup = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) {
+            importUri = uri
+            importPasswordError = null
+            showImportPassword = true
+        }
+    }
 
     when {
         showHelp -> {
@@ -107,6 +153,8 @@ fun CfQuotaApp(viewModel: MainViewModel, onLanguageChanged: () -> Unit) {
         showSettings -> {
             SettingsScreen(
                 settings = settings,
+                accounts = accounts.map { it.account },
+                transferring = transferring,
                 onBack = { showSettings = false },
                 onLockChanged = viewModel::setLockEnabled,
                 onLanguageChanged = { tag ->
@@ -115,7 +163,82 @@ fun CfQuotaApp(viewModel: MainViewModel, onLanguageChanged: () -> Unit) {
                 },
                 onBackgroundChanged = viewModel::setBackgroundRefresh,
                 onIntervalChanged = viewModel::setRefreshInterval,
+                onExport = { showExportDialog = true },
+                onImport = {
+                    openBackup.launch(arrayOf("application/json", "application/octet-stream", "text/plain"))
+                },
             )
+
+            if (showExportDialog) {
+                ExportBackupDialog(
+                    accounts = accounts.map { it.account },
+                    transferring = transferring,
+                    onDismiss = { showExportDialog = false },
+                    onExport = { selected, password ->
+                        showExportDialog = false
+                        pendingExport = ExportRequest(selected, password)
+                        createBackup.launch("CF-Quota-Backup-${LocalDate.now()}.cfqm")
+                    },
+                )
+            }
+            if (showImportPassword) {
+                ImportPasswordDialog(
+                    transferring = transferring,
+                    error = importPasswordError,
+                    onDismiss = {
+                        showImportPassword = false
+                        importUri = null
+                        importPasswordError = null
+                    },
+                    onContinue = { password ->
+                        val uri = importUri ?: return@ImportPasswordDialog
+                        importPasswordError = null
+                        viewModel.previewBackup(uri, password) { payload, error ->
+                            if (payload != null) {
+                                showImportPassword = false
+                                importUri = null
+                                importPreview = payload
+                            } else importPasswordError = error ?: BackupError.READ_FAILED
+                        }
+                    },
+                )
+            }
+            importPreview?.let { payload ->
+                ImportPreviewDialog(
+                    payload = payload,
+                    transferring = transferring,
+                    onDismiss = { importPreview = null },
+                    onImport = { mode ->
+                        viewModel.importBackup(payload, mode) { result, error ->
+                            if (result != null) {
+                                importPreview = null
+                                transferNotice = TransferNotice.Imported(result)
+                            } else transferError = error ?: BackupError.WRITE_FAILED
+                        }
+                    },
+                )
+            }
+            transferError?.let { error ->
+                MessageDialog(
+                    title = stringResource(R.string.transfer_error_title),
+                    message = backupErrorMessage(error),
+                    onDismiss = { transferError = null },
+                )
+            }
+            transferNotice?.let { notice ->
+                MessageDialog(
+                    title = stringResource(R.string.app_name),
+                    message = when (notice) {
+                        is TransferNotice.Exported -> stringResource(R.string.export_success, notice.count)
+                        is TransferNotice.Imported -> stringResource(
+                            R.string.import_success,
+                            notice.result.imported,
+                            notice.result.skipped,
+                        )
+                    },
+                    onDismiss = { transferNotice = null },
+                )
+            }
             return
         }
     }
@@ -531,11 +654,15 @@ fun LockScreen(message: String?, onUnlock: () -> Unit) {
 @Composable
 private fun SettingsScreen(
     settings: AppSettings,
+    accounts: List<CfAccount>,
+    transferring: Boolean,
     onBack: () -> Unit,
     onLockChanged: (Boolean) -> Unit,
     onLanguageChanged: (String) -> Unit,
     onBackgroundChanged: (Boolean) -> Unit,
     onIntervalChanged: (Long) -> Unit,
+    onExport: () -> Unit,
+    onImport: () -> Unit,
 ) {
     BackHandler(onBack = onBack)
     var languageDialog by remember { mutableStateOf(false) }
@@ -577,6 +704,35 @@ private fun SettingsScreen(
                     enabled = settings.backgroundRefreshEnabled,
                 ) { frequencyDialog = true }
             }
+            SettingsCard(stringResource(R.string.settings_transfer)) {
+                Text(stringResource(R.string.settings_transfer_title), fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(5.dp))
+                Text(
+                    stringResource(R.string.settings_transfer_desc),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(Modifier.height(14.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Button(
+                        onClick = onExport,
+                        enabled = accounts.isNotEmpty() && !transferring,
+                        colors = ButtonDefaults.buttonColors(containerColor = CfOrange),
+                        modifier = Modifier.weight(1f),
+                    ) { Text(stringResource(R.string.action_export_accounts)) }
+                    OutlinedButton(
+                        onClick = onImport,
+                        enabled = !transferring,
+                        modifier = Modifier.weight(1f),
+                    ) { Text(stringResource(R.string.action_import_backup)) }
+                }
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    stringResource(R.string.transfer_security_note),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             Text(
                 stringResource(R.string.settings_schedule_note),
                 style = MaterialTheme.typography.bodySmall,
@@ -612,6 +768,233 @@ private fun SettingsScreen(
         )
     }
 }
+
+@Composable
+private fun ExportBackupDialog(
+    accounts: List<CfAccount>,
+    transferring: Boolean,
+    onDismiss: () -> Unit,
+    onExport: (Set<String>, String) -> Unit,
+) {
+    var selected by remember(accounts) { mutableStateOf(accounts.map { it.localId }.toSet()) }
+    var password by rememberSaveable { mutableStateOf("") }
+    var confirmation by rememberSaveable { mutableStateOf("") }
+    var errorRes by remember { mutableStateOf<Int?>(null) }
+    val allSelected = selected.size == accounts.size && accounts.isNotEmpty()
+    AlertDialog(
+        onDismissRequest = { if (!transferring) onDismiss() },
+        title = { Text(stringResource(R.string.export_title)) },
+        text = {
+            Column(
+                Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(9.dp),
+            ) {
+                Text(stringResource(R.string.export_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Row(
+                    Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable {
+                        selected = if (allSelected) emptySet() else accounts.map { it.localId }.toSet()
+                    }.padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = allSelected,
+                        onCheckedChange = {
+                            selected = if (it) accounts.map { account -> account.localId }.toSet() else emptySet()
+                        },
+                    )
+                    Text(stringResource(R.string.select_all), fontWeight = FontWeight.Bold)
+                }
+                accounts.forEach { account ->
+                    val checked = account.localId in selected
+                    Row(
+                        Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable {
+                            selected = if (checked) selected - account.localId else selected + account.localId
+                        }.padding(vertical = 3.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Checkbox(
+                            checked = checked,
+                            onCheckedChange = {
+                                selected = if (it) selected + account.localId else selected - account.localId
+                            },
+                        )
+                        Column {
+                            Text(account.name, fontWeight = FontWeight.Bold)
+                            Text(
+                                account.accountId.take(8) + "…" + account.accountId.takeLast(5),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                }
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it; errorRes = null },
+                    label = { Text(stringResource(R.string.backup_password)) },
+                    supportingText = { Text(stringResource(R.string.backup_password_support)) },
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                OutlinedTextField(
+                    value = confirmation,
+                    onValueChange = { confirmation = it; errorRes = null },
+                    label = { Text(stringResource(R.string.backup_password_confirm)) },
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                errorRes?.let { Text(stringResource(it), color = MaterialTheme.colorScheme.error) }
+            }
+        },
+        confirmButton = {
+            Button(
+                enabled = !transferring,
+                onClick = {
+                    errorRes = when {
+                        selected.isEmpty() -> R.string.backup_select_account
+                        password.length < 8 -> R.string.backup_password_short
+                        password != confirmation -> R.string.backup_password_mismatch
+                        else -> null
+                    }
+                    if (errorRes == null) onExport(selected, password)
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = CfOrange),
+            ) { Text(stringResource(R.string.action_export_accounts)) }
+        },
+        dismissButton = {
+            TextButton(enabled = !transferring, onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
+        },
+    )
+}
+
+@Composable
+private fun ImportPasswordDialog(
+    transferring: Boolean,
+    error: BackupError?,
+    onDismiss: () -> Unit,
+    onContinue: (String) -> Unit,
+) {
+    var password by rememberSaveable { mutableStateOf("") }
+    var shortPassword by remember { mutableStateOf(false) }
+    AlertDialog(
+        onDismissRequest = { if (!transferring) onDismiss() },
+        title = { Text(stringResource(R.string.import_password_title)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(stringResource(R.string.import_password_desc), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it; shortPassword = false },
+                    label = { Text(stringResource(R.string.backup_password)) },
+                    visualTransformation = PasswordVisualTransformation(),
+                    singleLine = true,
+                    enabled = !transferring,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                if (shortPassword) Text(stringResource(R.string.backup_password_short), color = MaterialTheme.colorScheme.error)
+                error?.let { Text(backupErrorMessage(it), color = MaterialTheme.colorScheme.error) }
+                if (transferring) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                        Spacer(Modifier.width(9.dp))
+                        Text(stringResource(R.string.transfer_working))
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(
+                enabled = !transferring,
+                onClick = {
+                    shortPassword = password.length < 8
+                    if (!shortPassword) onContinue(password)
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = CfOrange),
+            ) { Text(stringResource(R.string.action_continue)) }
+        },
+        dismissButton = {
+            TextButton(enabled = !transferring, onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
+        },
+    )
+}
+
+@Composable
+private fun ImportPreviewDialog(
+    payload: BackupPayload,
+    transferring: Boolean,
+    onDismiss: () -> Unit,
+    onImport: (DuplicateMode) -> Unit,
+) {
+    var mode by remember { mutableStateOf(DuplicateMode.SKIP) }
+    val choices = listOf(
+        DuplicateMode.SKIP to R.string.duplicate_skip,
+        DuplicateMode.REPLACE to R.string.duplicate_replace,
+        DuplicateMode.KEEP_BOTH to R.string.duplicate_keep_both,
+    )
+    AlertDialog(
+        onDismissRequest = { if (!transferring) onDismiss() },
+        title = { Text(stringResource(R.string.import_preview_title)) },
+        text = {
+            Column(
+                Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text(stringResource(R.string.import_preview_desc, payload.accounts.size))
+                payload.accounts.take(50).forEach { account ->
+                    Text("• ${account.name}", fontWeight = FontWeight.Bold)
+                }
+                if (payload.accounts.size > 50) Text("…")
+                Spacer(Modifier.height(5.dp))
+                Text(stringResource(R.string.duplicate_handling), fontWeight = FontWeight.Bold)
+                choices.forEach { (value, label) ->
+                    Row(
+                        Modifier.fillMaxWidth().clickable(enabled = !transferring) { mode = value }.padding(vertical = 3.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(selected = mode == value, onClick = { mode = value }, enabled = !transferring)
+                        Spacer(Modifier.width(5.dp))
+                        Text(stringResource(label))
+                    }
+                }
+                if (transferring) Text(stringResource(R.string.transfer_working))
+            }
+        },
+        confirmButton = {
+            Button(
+                enabled = !transferring,
+                onClick = { onImport(mode) },
+                colors = ButtonDefaults.buttonColors(containerColor = CfOrange),
+            ) { Text(stringResource(R.string.action_import_backup)) }
+        },
+        dismissButton = {
+            TextButton(enabled = !transferring, onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
+        },
+    )
+}
+
+@Composable
+private fun MessageDialog(title: String, message: String, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title) },
+        text = { Text(message) },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_ok)) } },
+    )
+}
+
+@Composable
+private fun backupErrorMessage(error: BackupError): String = stringResource(when (error) {
+    BackupError.SELECT_ACCOUNT -> R.string.backup_select_account
+    BackupError.PASSWORD_SHORT -> R.string.backup_password_short
+    BackupError.INVALID -> R.string.backup_invalid
+    BackupError.UNSUPPORTED -> R.string.backup_unsupported
+    BackupError.WRONG_PASSWORD -> R.string.backup_wrong_password
+    BackupError.TOKEN_UNREADABLE -> R.string.error_token_unreadable
+    BackupError.READ_FAILED -> R.string.backup_read_failed
+    BackupError.WRITE_FAILED -> R.string.backup_write_failed
+})
 
 @Composable
 private fun ScreenHeader(title: String, onBack: () -> Unit) {

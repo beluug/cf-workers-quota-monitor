@@ -13,7 +13,7 @@
 | Windows с Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
 | Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
 | Портативная версия Windows | Соответствующий `Portable.zip` |
-| Android 8.0+ | `CF-Quota-Monitor-v1.2.0.apk` |
+| Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
 
 Пакеты Windows пока не подписаны и могут вызвать предупреждение SmartScreen. Загружайте их только из [Releases](../../releases/latest) и сверяйте `SHA256SUMS-Windows.txt`.
 
@@ -25,9 +25,7 @@
 - Необязательное фоновое обновление; в Windows приложение работает в области уведомлений
 - Android Keystore и шифрование DPAPI текущего пользователя Windows
 - Без рекламы, аналитики, собственного сервера и облачного хранения токенов
-- Windows экспортирует выбранные аккаунты в защищённый паролем файл `.cfqm`
-
-Android v1.2 пока не импортирует `.cfqm`; поддержка появится в следующей мобильной версии.
+- Android и Windows экспортируют выбранные аккаунты в защищённый паролем файл `.cfqm`, совместимый между платформами
 
 <p align="center"><img src="docs/images/v1.2-main-ru.png" alt="Android" width="300"> &nbsp; <img src="docs/images/v1.2-settings-ru.png" alt="Настройки Android" width="300"></p>
 

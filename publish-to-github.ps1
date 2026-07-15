@@ -77,7 +77,7 @@ if ($stagedFiles.Count -eq 0) {
 }
 
 Write-Host "Committing $($stagedFiles.Count) public files. Signing keys, local settings and release binaries are excluded." -ForegroundColor Green
-git commit -m "Add Windows v1.0.0 release"
+git commit -m "Release Android v1.3.0 with cross-platform backups"
 
 $origin = git remote get-url origin 2>$null
 if ([string]::IsNullOrWhiteSpace($origin)) {
@@ -93,12 +93,12 @@ if ([string]::IsNullOrWhiteSpace($origin)) {
 }
 
 $releaseAssets = @($apkFiles[0].FullName) + @($windowsSetup.FullName) + @($windowsPortable.FullName) + @($checksumPath, $windowsChecksumPath, $installPath)
-gh release view v1.2.0 *> $null
+gh release view v1.3.0 *> $null
 if ($LASTEXITCODE -eq 0) {
-    gh release upload v1.2.0 @releaseAssets --clobber
-    gh release edit v1.2.0 --title "CF Quota Monitor | Android v1.2.0 | Windows v1.0.0" --notes-file $releaseNotesPath
+    gh release upload v1.3.0 @releaseAssets --clobber
+    gh release edit v1.3.0 --title "CF Quota Monitor | Android v1.3.0 | Windows v1.0.0" --notes-file $releaseNotesPath
 } else {
-    gh release create v1.2.0 @releaseAssets --title "CF Quota Monitor | Android v1.2.0 | Windows v1.0.0" --notes-file $releaseNotesPath
+    gh release create v1.3.0 @releaseAssets --title "CF Quota Monitor | Android v1.3.0 | Windows v1.0.0" --notes-file $releaseNotesPath
 }
 if ($LASTEXITCODE -ne 0) { throw "Failed to create or update the GitHub Release." }
 

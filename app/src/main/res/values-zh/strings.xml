@@ -33,4 +33,38 @@
     <string name="help_step4_title">复制并保存 Token</string><string name="help_step4_body">Cloudflare 只会完整显示 Token 一次。复制到本应用，不要使用 Global API Key，也不要把 Token 提交到 GitHub。</string>
     <string name="help_step5_title">查看结果</string><string name="help_step5_body">应用查询 UTC 00:00 至当前的 Workers 请求数。免费版默认每天 100,000 次。</string>
     <string name="help_why_title">为什么剩余额度是“估算”？</string><string name="help_why_body">Cloudflare Analytics 可能延迟数分钟，也不是计费计数器，临近 100% 时请预留余量。后台刷新可在设置中开启或关闭。</string>
+    <string name="action_ok">确定</string>
+    <string name="action_continue">继续</string>
+    <string name="settings_transfer">账户迁移</string>
+    <string name="settings_transfer_title">加密账户备份</string>
+    <string name="settings_transfer_desc">选择账户导出，或导入与 Windows 版通用的 .cfqm 备份。</string>
+    <string name="action_export_accounts">导出账户</string>
+    <string name="action_import_backup">导入备份</string>
+    <string name="transfer_security_note">备份中包含 API Token，并使用你设置的密码保护。备份密码无法找回。</string>
+    <string name="export_title">导出加密备份</string>
+    <string name="export_description">选择需要导出的账户，然后设置备份密码。</string>
+    <string name="select_all">选择全部账户</string>
+    <string name="backup_password">备份密码</string>
+    <string name="backup_password_confirm">确认备份密码</string>
+    <string name="backup_password_support">至少 8 个字符，请妥善保存。</string>
+    <string name="backup_password_mismatch">两次输入的密码不一致</string>
+    <string name="backup_select_account">请至少选择一个账户</string>
+    <string name="backup_password_short">备份密码至少需要 8 个字符</string>
+    <string name="export_success">已成功导出 %1$d 个账户</string>
+    <string name="import_password_title">解锁备份</string>
+    <string name="import_password_desc">请输入导出这个 .cfqm 文件时设置的密码。</string>
+    <string name="import_preview_title">确认导入账户</string>
+    <string name="import_preview_desc">备份中包含 %1$d 个账户，确认前不会修改任何账户。</string>
+    <string name="duplicate_handling">如果 Account ID 已存在</string>
+    <string name="duplicate_skip">跳过重复账户</string>
+    <string name="duplicate_replace">替换已保存的账户和 Token</string>
+    <string name="duplicate_keep_both">两个账户都保留</string>
+    <string name="import_success">导入完成：已导入 %1$d 个，跳过 %2$d 个</string>
+    <string name="transfer_error_title">账户迁移失败</string>
+    <string name="backup_invalid">这不是有效的 CF Quota Monitor 备份</string>
+    <string name="backup_unsupported">不支持这个备份版本或加密方式</string>
+    <string name="backup_wrong_password">密码错误，或者备份文件已被修改</string>
+    <string name="backup_read_failed">无法读取所选备份文件</string>
+    <string name="backup_write_failed">无法在此设备上保存备份</string>
+    <string name="transfer_working">正在处理加密备份…</string>
 </resources>
