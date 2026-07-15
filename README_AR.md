@@ -12,8 +12,8 @@
 
 | الجهاز | الملف |
 |---|---|
-| Windows بمعالج Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
+| Windows بمعالج Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
 | نسخة Windows محمولة | ملف `Portable.zip` المناسب |
 | Android 8.0 أو أحدث | `CF-Quota-Monitor-v1.3.0.apk` |
 

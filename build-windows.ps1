@@ -6,6 +6,9 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $project = Join-Path $root 'windows\CFQuotaMonitor.Windows.csproj'
+$projectXml = [xml](Get-Content -LiteralPath $project -Raw)
+$version = [string]($projectXml.Project.PropertyGroup.Version | Select-Object -First 1)
+if ([string]::IsNullOrWhiteSpace($version)) { throw 'Windows project version was not found.' }
 $release = Join-Path $root 'release'
 $icon = Join-Path $root 'windows\Assets\app.ico'
 $installerScript = Join-Path $root 'windows\installer.nsi'
@@ -40,15 +43,16 @@ foreach ($arch in $targets) {
         -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true `
         -p:DebugType=None -p:DebugSymbols=false -o $publish
 
-    $portable = Join-Path $release "CF-Quota-Monitor-v1.0.0-Windows-$arch-Portable.zip"
+    $portable = Join-Path $release "CF-Quota-Monitor-v$version-Windows-$arch-Portable.zip"
     if (Test-Path $portable) { Remove-Item -LiteralPath $portable -Force }
     Compress-Archive -Path (Join-Path $publish '*') -DestinationPath $portable -CompressionLevel Optimal
 
-    & $nsis.FullName "/DARCH=$arch" "/DPUBLISH_DIR=$publish" "/DOUTPUT_DIR=$release" "/DAPP_ICON=$icon" $installerScript
+    & $nsis.FullName "/DARCH=$arch" "/DPRODUCT_VERSION=$version" "/DPUBLISH_DIR=$publish" "/DOUTPUT_DIR=$release" "/DAPP_ICON=$icon" $installerScript
     if ($LASTEXITCODE -ne 0) { throw "NSIS packaging failed for $arch" }
 }
 
-$artifacts = Get-ChildItem $release -File | Where-Object { $_.Extension -in '.exe', '.zip' } | Sort-Object Name
+$artifacts = Get-ChildItem $release -File -Filter "CF-Quota-Monitor-v$version-Windows-*" |
+    Where-Object { $_.Extension -in '.exe', '.zip' } | Sort-Object Name
 $checksumLines = foreach ($artifact in $artifacts) {
     $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $artifact.FullName).Hash.ToLowerInvariant()
     "$hash  $($artifact.Name)"

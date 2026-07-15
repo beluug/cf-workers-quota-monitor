@@ -10,8 +10,8 @@ A beautiful, secure, local-first dashboard for monitoring daily Cloudflare Worke
 
 | Device | File |
 |---|---|
-| Most Windows PCs with Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
-| Windows on ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
+| Most Windows PCs with Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
+| Windows on ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
 | Portable Windows version | Matching `Portable.zip` |
 | Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
 

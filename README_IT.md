@@ -10,8 +10,8 @@ Un'app bella, sicura e locale per controllare la quota giornaliera Cloudflare Wo
 
 | Dispositivo | File |
 |---|---|
-| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
+| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
 | Windows portatile | `Portable.zip` dell'architettura corretta |
 | Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
 

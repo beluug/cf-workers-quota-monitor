@@ -10,8 +10,8 @@ Une application belle, sûre et entièrement locale pour suivre le quota quotidi
 
 | Appareil | Fichier |
 |---|---|
-| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.0-Windows-x64-Setup.exe` |
-| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.0-Windows-arm64-Setup.exe` |
+| Windows Intel/AMD | `CF-Quota-Monitor-v1.0.1-Windows-x64-Setup.exe` |
+| Windows ARM/Snapdragon | `CF-Quota-Monitor-v1.0.1-Windows-arm64-Setup.exe` |
 | Windows portable | Le `Portable.zip` correspondant |
 | Android 8.0+ | `CF-Quota-Monitor-v1.3.0.apk` |
 

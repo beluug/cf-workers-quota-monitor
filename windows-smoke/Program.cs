@@ -49,6 +49,25 @@ try
     if (result.Imported != 1 || importedStorage.GetToken(importedStorage.Accounts[0]) != payload.Accounts[0].Token)
         throw new Exception("Imported account secure storage failed");
 
+    const string successfulGraphQlWithNullErrors =
+        "{\"data\":{\"viewer\":{\"accounts\":[{\"workersInvocationsAdaptive\":[{\"sum\":{\"requests\":41}},{\"sum\":{\"requests\":1}}]}]}},\"errors\":null}";
+    if (CloudflareService.ParseUsageResponse(successfulGraphQlWithNullErrors) != 42)
+        throw new Exception("Cloudflare response with errors:null was not parsed correctly");
+
+    const string successfulGraphQlWithEmptyErrors =
+        "{\"data\":{\"viewer\":{\"accounts\":[{\"workersInvocationsAdaptive\":[]}]}},\"errors\":[]}";
+    if (CloudflareService.ParseUsageResponse(successfulGraphQlWithEmptyErrors) != 0)
+        throw new Exception("Cloudflare response with an empty errors array was not parsed correctly");
+
+    const string failedGraphQl =
+        "{\"data\":null,\"errors\":[{\"message\":\"Unauthorized\"}]}";
+    try
+    {
+        CloudflareService.ParseUsageResponse(failedGraphQl);
+        throw new Exception("Cloudflare GraphQL error was accepted as usage data");
+    }
+    catch (CloudflareException ex) when (ex.ResourceKey == "error_token_invalid") { }
+
     var localizer = new LocalizationService("en");
     var stringsField = typeof(LocalizationService).GetField("_strings", BindingFlags.Instance | BindingFlags.NonPublic)
                        ?? throw new Exception("Localization dictionary missing");
@@ -56,7 +75,7 @@ try
     if (strings.Count < 80 || strings.Any(entry => entry.Value.Length != 7 || entry.Value.Any(string.IsNullOrWhiteSpace)))
         throw new Exception("A translation is missing or incomplete");
 
-    Console.WriteLine($"PASS: DPAPI, encrypted backup, wrong-password rejection, account import, and {strings.Count} translated UI strings");
+    Console.WriteLine($"PASS: Cloudflare errors:null response, DPAPI, encrypted backup, wrong-password rejection, account import, and {strings.Count} translated UI strings");
 }
 finally
 {

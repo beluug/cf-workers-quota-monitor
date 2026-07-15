@@ -10,7 +10,7 @@
     <RootNamespace>CFQuotaMonitor.Windows</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>CF Quota Monitor Contributors</Authors>
     <Description>Cloudflare Workers quota monitor for Windows</Description>
     <Copyright>Copyright (c) CF Quota Monitor Contributors</Copyright>
