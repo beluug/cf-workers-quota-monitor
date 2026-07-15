@@ -17,6 +17,17 @@ if (-not $nsis) {
     $nsis = Get-Command makensis.exe -ErrorAction SilentlyContinue
 }
 if (-not $nsis) {
+    $standardNsisPaths = @(
+        if (${env:ProgramFiles(x86)}) { Join-Path ${env:ProgramFiles(x86)} 'NSIS\makensis.exe' }
+        if ($env:ProgramFiles) { Join-Path $env:ProgramFiles 'NSIS\makensis.exe' }
+        if ($env:ChocolateyInstall) { Join-Path $env:ChocolateyInstall 'bin\makensis.exe' }
+    ) | Where-Object { $_ -and (Test-Path -LiteralPath $_) }
+
+    if ($standardNsisPaths) {
+        $nsis = Get-Item -LiteralPath ($standardNsisPaths | Select-Object -First 1)
+    }
+}
+if (-not $nsis) {
     throw 'NSIS makensis.exe was not found. Install NSIS, then run this script again.'
 }
 
