@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="460" viewBox="0 0 1200 460" role="img" aria-labelledby="title desc">
+  <title id="title">CF额度监控</title>
+  <desc id="desc">Cloudflare Workers 多账号额度监控 Android 应用</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101218"/>
+      <stop offset="0.62" stop-color="#202632"/>
+      <stop offset="1" stop-color="#342113"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFA45B"/>
+      <stop offset="1" stop-color="#F48120"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="460" rx="38" fill="url(#bg)"/>
+  <circle cx="1120" cy="55" r="180" fill="#F48120" opacity=".08"/>
+  <circle cx="90" cy="430" r="210" fill="#F48120" opacity=".06"/>
+
+  <g transform="translate(90 100)" filter="url(#shadow)">
+    <rect width="220" height="220" rx="62" fill="url(#orange)"/>
+    <g fill="#fff">
+      <circle cx="82" cy="127" r="31"/>
+      <circle cx="124" cy="103" r="47"/>
+      <circle cx="163" cy="130" r="29"/>
+      <rect x="52" y="126" width="139" height="34" rx="17"/>
+    </g>
+    <path d="M82 149a49 49 0 0 1 98 0" fill="none" stroke="#F48120" stroke-width="12" stroke-linecap="round"/>
+    <path d="m130 143 35-29-22 42z" fill="#F48120"/>
+    <circle cx="130" cy="147" r="11" fill="#F48120"/>
+  </g>
+
+  <g transform="translate(370 108)">
+    <text x="0" y="74" fill="#fff" font-family="system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif" font-size="70" font-weight="750">CF额度监控</text>
+    <text x="3" y="127" fill="#C9CED8" font-family="system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif" font-size="27">Cloudflare Workers 多账号用量，一眼掌握</text>
+    <g transform="translate(3 171)" font-family="system-ui,-apple-system,'Segoe UI','Microsoft YaHei',sans-serif" font-size="21" font-weight="650">
+      <rect width="150" height="48" rx="24" fill="#159567" opacity=".22"/>
+      <text x="75" y="31" text-anchor="middle" fill="#6BE0B6">纯本地</text>
+      <rect x="166" width="180" height="48" rx="24" fill="#F48120" opacity=".18"/>
+      <text x="256" y="31" text-anchor="middle" fill="#FFB77B">多账号同屏</text>
+      <rect x="362" width="180" height="48" rx="24" fill="#73849A" opacity=".2"/>
+      <text x="452" y="31" text-anchor="middle" fill="#D3DAE4">无后台任务</text>
+    </g>
+  </g>
+</svg>
